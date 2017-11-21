@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatrizPruebas : MonoBehaviour {
-
+[System.Serializable]
+public class MatrizPruebas{
 	public int[] matrizPruebas;
 }

@@ -6,15 +6,17 @@ public class PruebasGestionArchivos : MonoBehaviour {
 
 	public string path;
 	public int[] objeto;
+    GestionDeArchivos<MatrizRecompensa> aux;
 
 	GestionDeArchivos<MatrizPruebas> ges;
 	// Use this for initialization
 	void Awake () {
-		ges = new GestionDeArchivos<MatrizPruebas> ("prueba", new MatrizPruebas());
-		path = ges.GetPath ();
-		ges.GetObjeto ().matrizPruebas = new int[5] { 0, 1, 2, 3, 4 };
+		//ges = new GestionDeArchivos<MatrizPruebas> ("prueba"/*, new MatrizPruebas()*/);
+		/*path = ges.GetPath ();
+		/ges.GetObjeto ().matrizPruebas = new int[5] { 0, 1, 2, 3, 4 };
 		ges.Guardar ();
-		objeto = ges.GetObjeto ().matrizPruebas;
+		objeto = ges.GetObjeto ().matrizPruebas;*/
+        aux = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz("matrizRecomoensa");
 	}
 	
 	// Update is called once per frame
