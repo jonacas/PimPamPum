@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class TurnBasedBehaviour : MonoBehaviour {
 
-	public bool ReadyPlayerOne = true;
-	public bool ReadyPlayerTwo = false;
-
 	private int currentTurn;
 	private int TOTAL_NUMBER_OF_TURNS = 30;
 
 	public PlayerMovement referenceMovementPlayer1;
 	public PlayerMovement referenceMovementPlayer2;
+
+	//Gestion de partida: turnos, gameflow...
+
+	//Hacer la funcion que hace la foto.
 
 	// Use this for initialization
 	void Start () {
@@ -26,13 +27,7 @@ public class TurnBasedBehaviour : MonoBehaviour {
 
 	void gamePaceManager()
 	{
-		if (ReadyPlayerOne) // Es turno pra jugador uno
-		{
-			
-			print ("Fin de turno, it seems");
-		}
-
-
+		
 	}
 
 

@@ -24,10 +24,22 @@ public static class GlobalData{
 	public const int ANCHO_TABLERO = 3;
 	public const int ALTO_TABLERO = 3;
 	public const int VALORES_SALUD = 3;
-	public const int VALORES_CARGAS = 3;
+	public const int VALORES_CARGAS = 6;
 	public const int VALORES_POWER_UP = 2;
 	public const int VALORES_DISTANCA_ENEMIGO = 2;
 	public const int VALORES_SALUD_ENEMIGO = 4;
+	public const int VALORES_CARGA_ENEMIGO = 6;
+	#endregion
+
+	#region INDICES ARRAY ESTADO
+	public const int FILA = 0;
+	public const int COLUMNA = 1;
+	public const int SALUD = 2;
+	public const int CARGAS = 3;
+	public const int ESCUDOS = 4;
+	public const int ENEMIGO_EN_RANGO = 5;
+	public const int SALUD_ENEMIGO = 6;
+	public const int CARGAS_ENEMIGO = 7;
 	#endregion
 
 	#region VARIABLES PARAMETROS JUEGO

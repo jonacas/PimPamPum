@@ -4,6 +4,12 @@ using UnityEngine;
 
 public static class GestionMatrizQ {
 
+	public static float ratioAprendizaje = 0.5f;
+	public static float factorDescuento = 0.5f;
+
+
+	//maxQ = mejor valor fila del estado al que movemos
+
 	public static GestionDeArchivos<MatrizQ<int[,]>> CrearMatrizQ()
 	{
 		int[,] matriz = new int[GlobalData.MAX_TURNOS,GlobalData.TOTAL_ACCIONES];
@@ -20,5 +26,17 @@ public static class GestionMatrizQ {
 		soporteMatriz.Matriz = matriz;
 		GestionDeArchivos<MatrizQ<int[,]>> gestorMatriz = new GestionDeArchivos<MatrizQ<int[,]>>("MatrizQ", soporteMatriz);
 		return gestorMatriz;
+	}
+		
+
+	private static float buscarMaximoEnFila(MatrizQ<int[,]> mat, int fila, int columnas)
+	{
+		float maximo = float.NegativeInfinity;
+		for(int i = 0; i < columnas; i++)
+		{
+			if (mat.Matriz[fila, i] > maximo)
+				maximo = mat.Matriz [fila, i];
+		}
+		return maximo;
 	}
 }
