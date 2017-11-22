@@ -296,6 +296,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114426428508127120, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
+        type: 2}
+      propertyPath: rival
+      value: 
+      objectReference: {fileID: 1936181366}
+    - target: {fileID: 114002633378557196, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
+        type: 2}
+      propertyPath: rival
+      value: 
+      objectReference: {fileID: 1936181367}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1936181366 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1418745215988956, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1936181365}
+--- !u!1 &1936181367 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1543894210431394, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1936181365}
