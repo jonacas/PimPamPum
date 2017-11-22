@@ -875,8 +875,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50131388bcf42a40970376fc31685eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal: Horizontal1
-  vertical: Vertical1
+  horizontal: Horizontal2
+  vertical: Vertical2
   fila1:
   - {fileID: 4169088274814572}
   - {fileID: 4474169904725738}
@@ -900,8 +900,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50131388bcf42a40970376fc31685eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal: Horizontal2
-  vertical: Vertical2
+  horizontal: Horizontal1
+  vertical: Vertical1
   fila1:
   - {fileID: 4402473942546574}
   - {fileID: 4628179356628916}
