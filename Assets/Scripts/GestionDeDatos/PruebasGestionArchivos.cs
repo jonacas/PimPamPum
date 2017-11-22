@@ -7,7 +7,7 @@ public class PruebasGestionArchivos : MonoBehaviour {
 	public string path;
 	public int[] objeto;
     GestionDeArchivos<MatrizRecompensa> aux;
-	GestionDeArchivos<MatrizQ<int[,]>> matrizQ;
+	GestionDeArchivos<MatrizQ<float[,]>> matrizQ;
 
 	GestionDeArchivos<MatrizPruebas> ges;
 	// Use this for initialization
