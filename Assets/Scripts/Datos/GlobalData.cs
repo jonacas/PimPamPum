@@ -20,7 +20,7 @@ public static class GlobalData{
 	public const int ENEMIGO_TODA_SALUD = 3;
 	#endregion
 
-
+	#region VARIABLES_CANTIDAD_ESTADOS
 	public const int ANCHO_TABLERO = 3;
 	public const int ALTO_TABLERO = 3;
 	public const int VALORES_SALUD = 3;
@@ -28,4 +28,22 @@ public static class GlobalData{
 	public const int VALORES_POWER_UP = 2;
 	public const int VALORES_DISTANCA_ENEMIGO = 2;
 	public const int VALORES_SALUD_ENEMIGO = 4;
+	#endregion
+
+	#region VARIABLES PARAMETROS JUEGO
+	public const int MAX_TURNOS = 30;
+	public const int TOTAL_ACCIONES = 8;
+	#endregion
+
+	#region ACCIONES
+	public const int MOVER_ARRIBA = 0;
+	public const int MOVER_ABAJO = 1;
+	public const int MOVER_IZQ = 2;
+	public const int MOVER_DER = 3;
+	public const int DISPARO = 4;
+	public const int ESCUDO = 5;
+	public const int CARGAR_DISPARO = 6;
+	public const int BAZOONGA = 7;
+	#endregion
+
 }

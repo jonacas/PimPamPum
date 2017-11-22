@@ -7,6 +7,7 @@ public class PruebasGestionArchivos : MonoBehaviour {
 	public string path;
 	public int[] objeto;
     GestionDeArchivos<MatrizRecompensa> aux;
+	GestionDeArchivos<MatrizQ<int[,]>> matrizQ;
 
 	GestionDeArchivos<MatrizPruebas> ges;
 	// Use this for initialization
@@ -16,7 +17,8 @@ public class PruebasGestionArchivos : MonoBehaviour {
 		/ges.GetObjeto ().matrizPruebas = new int[5] { 0, 1, 2, 3, 4 };
 		ges.Guardar ();
 		objeto = ges.GetObjeto ().matrizPruebas;*/
-        aux = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz("matrizRecomoensa");
+        aux = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz("MatrizRecomoensa");
+		matrizQ = GestionMatrizQ.CrearMatrizQ ();
 	}
 	
 	// Update is called once per frame
