@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public string horizontal;
     public string vertical;
+    public GameObject rival;
     public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
@@ -13,8 +14,15 @@ public class PlayerMovement : MonoBehaviour {
     private int posX = 1;
     private int posY = 1;
     private float timer = 0.1f;
+    private int life;
+    private int shield;
+    private int chargues;
 	// Use this for initialization
 	void Start () {
+
+        life = 3;
+        shield = 3;
+        chargues = 1;
         for (int i = 0; i < fila1.Length; i++) {
 
             positions[0, i] = fila1[i];
@@ -45,5 +53,19 @@ public class PlayerMovement : MonoBehaviour {
         else if (posY > 2) { posY = 2; }
         transform.position = positions[posX, posY].position;
         timer = 0.15f;
+    }
+    void Attack() {
+        
+
+        if(chargues > 1)
+        {
+            rival.GetComponent<PlayerMovement>().Damage(1);
+        }
+
+
+    }
+    public void Damage(int damage) {
+
+        life = life - damage;
     }
 }
