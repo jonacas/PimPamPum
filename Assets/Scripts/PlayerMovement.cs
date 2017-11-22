@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public string horizontal;
+    public string vertical;
     public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
@@ -35,8 +37,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Move() {
 
-        posX = posX + (int)(Input.GetAxisRaw("Horizontal"));
-        posY = posY + (int)-(Input.GetAxisRaw("Vertical"));
+        posX = posX + (int)(Input.GetAxisRaw(horizontal));
+        posY = posY + (int)-(Input.GetAxisRaw(vertical));
         if (posX < 0) { posX = 0; }
         else if (posX > 2) { posX = 2; }
         if (posY < 0) { posY = 0; }
