@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class MatrizRecompensa {
 
-    int[][][][][][][] matriz;
+    int[][][][][][][][] matriz;
 
-    public MatrizRecompensa(int[][][][][][][] m)
+    public MatrizRecompensa(int[][][][][][][][] m)
     {
         matriz = m;
     }
 
-    public int GetValor(int fila, int columna, int salud, int cargas, int powerUp, int distanciaEnemigo, int saludEnemigo)
+	public int GetValor(int fila, int columna, int salud, int cargas, int powerUp, int distanciaEnemigo, int saludEnemigo, int cargasEnemigo)
     {
-        return matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo];
+        return matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][cargasEnemigo];
     }
 }

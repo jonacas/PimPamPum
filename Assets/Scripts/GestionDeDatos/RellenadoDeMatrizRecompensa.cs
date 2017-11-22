@@ -40,10 +40,11 @@ public class RellenadoDeMatrizRecompensa
 									matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo] = new int[GlobalData.VALORES_SALUD_ENEMIGO][];
 									for(int cargasEnemigo = 0; cargasEnemigo < GlobalData.VALORES_CARGA_ENEMIGO; cargasEnemigo++)
 									{
-										if (saludEnemigo == GlobalData.ENEMIGO_MUERTO) {
-											matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] = 100;
+										matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] = new int[GlobalData.VALORES_CARGA_ENEMIGO];
+										if (saludEnemigo == GlobalData.ENEMIGO_MUERTO || cargasEnemigo == GlobalData.VALORES_CARGA_ENEMIGO - 1) {
+											matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] [cargasEnemigo] = 100;
 										} else {
-											matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] = (salud - saludEnemigo);
+											matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] [cargasEnemigo] = (salud - saludEnemigo) + (cargas - cargasEnemigo);
 										}
                                     /*print(Convert.ToString(fila) + Convert.ToString(columna) + Convert.ToString(salud) + Convert.ToString(cargas) + 
                                         Convert.ToString(powerUp) + Convert.ToString(distanciaEnemigo) + Convert.ToString(saludEnemigo) + " :" + matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo]);*/
