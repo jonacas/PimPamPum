@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
     public string horizontal;
     public string vertical;
     public GameObject rival;
+    public Slider vida;
     public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
@@ -37,6 +39,9 @@ public class PlayerMovement : MonoBehaviour {
 
         if (timer <= 0) { Move(); }
         timer = timer - Time.deltaTime;
+        if (Input.GetKey("D")) {
+            Attack();
+        }
        
 
 
@@ -67,5 +72,6 @@ public class PlayerMovement : MonoBehaviour {
     public void Damage(int damage) {
 
         life = life - damage;
+        
     }
 }
