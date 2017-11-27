@@ -23,13 +23,13 @@ public static class GlobalData{
 	#region VARIABLES_CANTIDAD_ESTADOS
 	public const int ALTO_TABLERO = 3;
 	public const int ANCHO_TABLERO = 3;
-	public const int VALORES_SALUD = 3;
-	public const int VALORES_CARGAS = 6;
+	public const int VALORES_SALUD = 4;
+	public const int VALORES_CARGAS = 6; //para ir de 0 a 5
 	public const int VALORES_ESCUDO = 2;
 	public const int VALORES_DISTANCA_ENEMIGO = 2;
 	public const int VALORES_SALUD_ENEMIGO = 4;
 	public const int VALORES_ESCUDO_ENEMIGO = 2;
-	public const int VALORES_CARGA_ENEMIGO = 6;
+    public const int VALORES_CARGA_ENEMIGO = 6;  //para ir de 0 a 5
 	public const int TOTAL_ESTADOS = ANCHO_TABLERO * ALTO_TABLERO * VALORES_SALUD * VALORES_CARGAS * VALORES_ESCUDO * VALORES_SALUD_ENEMIGO * VALORES_CARGA_ENEMIGO * VALORES_DISTANCA_ENEMIGO * VALORES_ESCUDO_ENEMIGO;
 	#endregion
 

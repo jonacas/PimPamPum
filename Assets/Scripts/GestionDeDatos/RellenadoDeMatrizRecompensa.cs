@@ -42,9 +42,16 @@ public class RellenadoDeMatrizRecompensa
 									{
 										matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo] = new int[GlobalData.VALORES_CARGA_ENEMIGO];
 										for (int cargasEnemigo = 0; cargasEnemigo < GlobalData.CARGAS_ENEMIGO; cargasEnemigo++) {
-											if (saludEnemigo == 0 || cargasEnemigo == GlobalData.VALORES_CARGA_ENEMIGO - 1) {
-												matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = 100;
-											} else {
+                                            if(salud == 0)
+                                                matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo][cargasEnemigo] = -100;
+                                            else if (saludEnemigo == 0 || cargas == GlobalData.VALORES_CARGA_ENEMIGO - 1)
+                                            {
+                                                    if (cargas == GlobalData.VALORES_CARGA_ENEMIGO - 1 && cargasEnemigo != GlobalData.VALORES_CARGA_ENEMIGO - 1)
+                                                        matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo][cargasEnemigo] = -10;
+                                                    else
+                                                        matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo][cargasEnemigo] = 100;
+                                            }
+                                            else {
 												matriz [fila] [columna] [salud] [cargas] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = (salud - saludEnemigo) + (cargas - cargasEnemigo);
 											}
 										}
