@@ -11,8 +11,10 @@ public class MatrizRecompensa {
         matriz = m;
     }
 
-	public int GetValor(int fila, int columna, int salud, int cargas, int powerUp, int distanciaEnemigo, int saludEnemigo,int escudoEnemigo, int cargasEnemigo)
+	public int GetValor(int[] estado)
     {
-		return matriz[fila][columna][salud][cargas][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo][cargasEnemigo];
+		return matriz[estado[GlobalData.FILA]][estado[GlobalData.COLUMNA]][estado[GlobalData.SALUD]]
+            [estado[GlobalData.CARGAS]][estado[GlobalData.ESCUDOS]][estado[GlobalData.ENEMIGO_EN_RANGO]]
+            [estado[GlobalData.SALUD_ENEMIGO]][estado[GlobalData.ESCUDO_ENEMIGO]][estado[GlobalData.CARGAS_ENEMIGO]];
     }
 }

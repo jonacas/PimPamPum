@@ -30,21 +30,24 @@ public static class GestionMatrizQ {
 
 
 	/// <summary>
-	/// Calcula el valor de la casilla Q correspondiente
+	/// Calcula el valor de la casilla Q correspondiente.
+    /// Los estados deben proporcionarse en forma de array ordenados segun los indices de GlobalData
 	/// </summary>
-	/// <returns>Valor de la fila actual de la matriz Q</returns></returns>
+	/// <returns>Valor de la fila futura de la matriz Q. (la que representa el nuevo estado en dicha matriz)</returns></returns>
 	/// <param name="mat">Matriz sobre la que se haran los calculos</param>
-	/// <param name="fila">Fila actual de la matriz</param>
-	/// <param name="columna">Columna en la que se esta (última acción realizada)</param>
-	/// <param name="columnaDestino">Accion que se ha realizado (columna de la matriz a la que se va)</param>
-	/// <param name="estado">Array con el conjunto de parametros que definen el estado ordenados segun los indices de GlobalData</param>
-	public static int CalcularValorCasilla(MatrizQ<float[,]> mat, int fila, int columna, int columnaDestino, int[] estado)
+	/// <param name="matR">Matriz de recompensa</param>
+    /// <param name="estadoAnterior">Estado antes de realizar la accion</param>
+    /// <param name="accionAnterior">Ultima acción realizada</param>
+    /// <param name="estadoFuturo">Estado al que se llega</param>
+    /// <param name="accionFutura">Acción que se va a realizar para llegar al nuevo estado</param>
+	public static int CalcularValorCasilla(MatrizQ<float[,]> mat, MatrizRecompensa matR, int[] estadoAnterior, int accionAnterior,int[] estadoFuturo, int accionFutura)
 	{
-		int filaDestino = calcularFila (estado);
+        int filaOrigen = calcularFila(estadoAnterior);
+		int filaDestino = calcularFila (estadoFuturo);
 
-		mat.Matriz [filaDestino, columnaDestino] = ratioAprendizaje *
-		((/*MatrizRecompensa +*/ factorDescuento * buscarMaximoEnFila (mat, filaDestino, GlobalData.TOTAL_ACCIONES))
-				- mat.Matriz [fila, columna]);
+        mat.Matriz[filaDestino, accionFutura] = mat.Matriz[filaOrigen, accionAnterior] + ratioAprendizaje *
+		(matR.GetValor(estadoFuturo) + factorDescuento * buscarMaximoEnFila (mat, filaDestino, GlobalData.TOTAL_ACCIONES)
+				- mat.Matriz [filaOrigen, accionAnterior]);
 
 		return filaDestino;
 	}
