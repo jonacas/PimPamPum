@@ -19,9 +19,12 @@ public class PlayerMovement : MonoBehaviour {
     private int life;
     private int shield;
     private int chargues;
-	// Use this for initialization
-	void Start () {
+    private bool defense = false;
 
+    
+
+    // Use this for initialization
+    void Start () {
         life = 3;
         shield = 3;
         chargues = 1;
@@ -39,14 +42,28 @@ public class PlayerMovement : MonoBehaviour {
 
         if (timer <= 0) { Move(); }
         timer = timer - Time.deltaTime;
-        if (Input.GetKey("D")) {
+        if (Input.GetKeyDown(KeyCode.V)) {
+            defense = false;
             Attack();
         }
-       
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            defense = false;
+            Rechargue();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D)) {
+
+            defense = true;
+            shield = shield - 1;
+            print("Escudos: " + shield);
+        }
 
 
-		
-	}
+
+
+    }
 
     void Move() {
 
@@ -60,18 +77,36 @@ public class PlayerMovement : MonoBehaviour {
         timer = 0.15f;
     }
     void Attack() {
-        
 
-        if(chargues > 1)
+        float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
+        print("Distancia: " + distanceToEnemy); 
+        if(chargues > 0 && distanceToEnemy <= 7.5f )
         {
             rival.GetComponent<PlayerMovement>().Damage(1);
+            chargues = chargues - 1;
         }
 
 
     }
+
+    void Rechargue() {
+
+
+        if (chargues < 5) {
+
+            chargues = chargues + 1;
+            print("Cargas "+chargues);
+        }
+
+    }
     public void Damage(int damage) {
 
-        life = life - damage;
-        
+        if (!defense)
+        {
+            life = life - damage;
+            print("Vida " + life);
+        }
+       
     }
+
 }
