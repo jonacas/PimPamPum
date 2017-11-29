@@ -21,7 +21,23 @@ public class PlayerMovement : MonoBehaviour {
     private int chargues;
     private bool defense = false;
 
-    
+	public bool myTurn = true;
+	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
+
+	public enum playerActions
+	{
+		Charge, 
+		Shoot,
+		Move,
+		Guard
+	};
+	public enum playerMovements
+	{
+		MoveUp,
+		MoveRight,
+		MoveLeft,
+		MoveDown
+	};
 
     // Use this for initialization
     void Start () {
@@ -39,42 +55,95 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (myTurn) {
+			if (timer >= 3.0f) 
+			{
+				float random = Random.value;
 
-        if (timer <= 0) { Move(); }
-        timer = timer - Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.V)) {
-            defense = false;
-            Attack();
-        }
+				if( random < 0.4f)
+					{
+						if (random < 0.1f) 
+						{
+							 Move (playerMovements.MoveUp);
+						} 
+						else if (random < 0.2f) 
+						{
+							Move (playerMovements.MoveLeft);
+						}
+						else if (random < 0.3f) 
+						{
+							Move (playerMovements.MoveRight);
+						} 
+						else
+						{
+							Move (playerMovements.MoveDown);
+						}
+						
+					}
+				else if( random < 0.6f)
+					{
+						defense = false;
+						Attack ();
+					}
+				else if( random < 0.8f)
+					{
+						defense = false;
+						Rechargue ();
+						
+					}
+				else
+					{
+						if (shield > 0) {	
+							defense = true;
+							shield = shield - 1;
+						}
+						print ("Escudos: " + shield);
+						
+					}
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            defense = false;
-            Rechargue();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D)) {
-
-            defense = true;
-            shield = shield - 1;
-            print("Escudos: " + shield);
-        }
-
-
-
+				timer = 0.0f;
+			}
+				timer = timer + Time.deltaTime;			
+		}
 
     }
 
-    void Move() {
+	void Move(playerMovements movement) {
 
-        posX = posX + (int)(Input.GetAxisRaw(horizontal));
-        posY = posY + (int)-(Input.GetAxisRaw(vertical));
-        if (posX < 0) { posX = 0; }
-        else if (posX > 2) { posX = 2; }
-        if (posY < 0) { posY = 0; }
-        else if (posY > 2) { posY = 2; }
+		switch (movement) 
+		{
+		case playerMovements.MoveDown:
+			{
+				posY = posY - 1;	
+				break;
+			}
+		case playerMovements.MoveLeft:
+			{
+				posX = posX - 1;
+				break;
+			}
+		case playerMovements.MoveRight:
+			{
+				posX = posX + 1;
+				break;
+			}
+		case playerMovements.MoveUp:
+			{
+				posY = posY + 1;
+				break;
+			}
+		}
+       // posX = posX + (int)(Input.GetAxisRaw(horizontal));
+       // posY = posY + (int)-(Input.GetAxisRaw(vertical));
+		if (posX < 0) { posX = 0; legalMove = false; }
+		else if (posX > 2) { posX = 2; legalMove = false; }
+		if (posY < 0) { posY = 0; legalMove = false;}
+		else if (posY > 2) { posY = 2; legalMove = false; }
         transform.position = positions[posX, posY].position;
-        timer = 0.15f;
+		if (legalMove) 
+		{
+			legalMove = true;
+		}
     }
     void Attack() {
 
