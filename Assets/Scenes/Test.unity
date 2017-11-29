@@ -296,45 +296,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114426428508127120, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
-        type: 2}
-      propertyPath: rival
-      value: 
-      objectReference: {fileID: 1936181366}
-    - target: {fileID: 114002633378557196, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
-        type: 2}
-      propertyPath: rival
-      value: 
-      objectReference: {fileID: 1936181367}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1936181366 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1418745215988956, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1936181365}
---- !u!1 &1936181367 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1543894210431394, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1936181365}
---- !u!1 &1936181368 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1866345449951088, guid: b8ed3fb9fb45db748ad7dfe9c1abf5c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1936181365}
---- !u!114 &1936181369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1936181368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac55aeae87a0ef488c47a1e5d621c84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerReferences:
-  - {fileID: 1936181367}
-  - {fileID: 1936181366}

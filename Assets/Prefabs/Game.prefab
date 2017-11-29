@@ -329,6 +329,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4281091624142932}
+  - component: {fileID: 114130109809330998}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -877,6 +878,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: Horizontal1
   vertical: Vertical1
+  rival: {fileID: 1543894210431394}
+  vida: {fileID: 0}
   fila1:
   - {fileID: 4892166790303222}
   - {fileID: 4663165998075638}
@@ -889,6 +892,22 @@ MonoBehaviour:
   - {fileID: 4048344967375824}
   - {fileID: 4554177085425378}
   - {fileID: 4405152287470938}
+  myTurn: 1
+  legalMove: 0
+--- !u!114 &114130109809330998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1866345449951088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac55aeae87a0ef488c47a1e5d621c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerReferences:
+  - {fileID: 1543894210431394}
+  - {fileID: 1418745215988956}
 --- !u!114 &114426428508127120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -902,6 +921,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: Horizontal2
   vertical: Vertical2
+  rival: {fileID: 1418745215988956}
+  vida: {fileID: 0}
   fila1:
   - {fileID: 4712365270440986}
   - {fileID: 4282000672170424}
@@ -914,3 +935,5 @@ MonoBehaviour:
   - {fileID: 4068911281249270}
   - {fileID: 4061122354198114}
   - {fileID: 4543172161038836}
+  myTurn: 1
+  legalMove: 0
