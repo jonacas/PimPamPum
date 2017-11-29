@@ -10,7 +10,7 @@ public static class GestionMatrizQ {
 
 	//maxQ = mejor valor fila del estado al que movemos
 
-	public static GestionDeArchivos<MatrizQ<float[,]>> CrearMatrizQ()
+	public static GestionDeArchivos<MatrizQ<float[,]>> CrearMatrizQ(string nombre)
 	{
 		float[,] matriz = new float[GlobalData.TOTAL_ESTADOS,GlobalData.TOTAL_ACCIONES];
 
@@ -24,7 +24,7 @@ public static class GestionMatrizQ {
 		//la ponemos en un soporte y creamos el archivo
 		MatrizQ<float[,]> soporteMatriz = new MatrizQ<float[,]>();
 		soporteMatriz.Matriz = matriz;
-		GestionDeArchivos<MatrizQ<float[,]>> gestorMatriz = new GestionDeArchivos<MatrizQ<float[,]>>("MatrizQ.cabronazo", soporteMatriz);
+		GestionDeArchivos<MatrizQ<float[,]>> gestorMatriz = new GestionDeArchivos<MatrizQ<float[,]>>(nombre + ".cabronazo", soporteMatriz);
 		return gestorMatriz;
 	}
 

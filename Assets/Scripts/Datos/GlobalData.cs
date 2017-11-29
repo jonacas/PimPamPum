@@ -26,25 +26,27 @@ public static class GlobalData{
 	public const int VALORES_SALUD = 4;
 	public const int VALORES_CARGAS = 6; //para ir de 0 a 5
 	public const int VALORES_ESCUDO = 2;
+	public const int VALORES_POWER_UP = 2;
 	public const int VALORES_DISTANCA_ENEMIGO = 2;
 	public const int VALORES_SALUD_ENEMIGO = 4;
 	public const int VALORES_ESCUDO_ENEMIGO = 2;
     public const int VALORES_CARGA_ENEMIGO = 6;  //para ir de 0 a 5
-	public const int TOTAL_ESTADOS = ANCHO_TABLERO * ALTO_TABLERO * VALORES_SALUD * VALORES_CARGAS * VALORES_ESCUDO * VALORES_SALUD_ENEMIGO * VALORES_CARGA_ENEMIGO * VALORES_DISTANCA_ENEMIGO * VALORES_ESCUDO_ENEMIGO;
+	public const int TOTAL_ESTADOS = ANCHO_TABLERO * ALTO_TABLERO * VALORES_SALUD * VALORES_CARGAS * VALORES_ESCUDO * VALORES_SALUD_ENEMIGO * VALORES_CARGA_ENEMIGO * VALORES_DISTANCA_ENEMIGO * VALORES_ESCUDO_ENEMIGO * VALORES_POWER_UP;
 	#endregion
 
 	#region INDICES ARRAY ESTADO
-	public const int TOTAL_INDICES_ARRAY_ESTADO = 9;
+	public const int TOTAL_INDICES_ARRAY_ESTADO = 10;
 
 	public const int FILA = 0;
 	public const int COLUMNA = 1;
 	public const int SALUD = 2;
 	public const int CARGAS = 3;
 	public const int ESCUDOS = 4;
-	public const int ENEMIGO_EN_RANGO = 5;
-	public const int SALUD_ENEMIGO = 6;
-	public const int ESCUDO_ENEMIGO = 7;
-	public const int CARGAS_ENEMIGO = 8;
+	public const int POWER_UP = 5;
+	public const int ENEMIGO_EN_RANGO = 6;
+	public const int SALUD_ENEMIGO = 7;
+	public const int ESCUDO_ENEMIGO = 8;
+	public const int CARGAS_ENEMIGO = 9;
 	#endregion
 
 	#region VARIABLES PARAMETROS JUEGO

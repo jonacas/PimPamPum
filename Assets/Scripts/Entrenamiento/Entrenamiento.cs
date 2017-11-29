@@ -11,6 +11,7 @@ public class Entrenamiento : MonoBehaviour {
 		public bool j1Escudo, j1Ataca, j1Bazoonga;
 		public bool j2Escudo, j2Ataca, j2Bazoonga;
 		public bool victoriaJ1, victoriaJ2;
+		public bool victoria;
 		public int turnos;
 
 		public Partida(int id)
@@ -23,6 +24,7 @@ public class Entrenamiento : MonoBehaviour {
 			j2Escudo = j2Ataca = j2Bazoonga = false;
 
 			victoriaJ1 = victoriaJ2 = false;
+			victoria = false;
 			turnos = 0;
 		}
 	}
@@ -32,6 +34,7 @@ public class Entrenamiento : MonoBehaviour {
 	public int numPartidas;
 	public int matricesTotales;
 
+	private int accionJ1, accionJ2, accionJ1Anterior;
 	Decisionador decisionador;
 	GestionDeArchivos<MatrizQ<float[,]>> matQ;
 	GestionDeArchivos<MatrizRecompensa> matR;
@@ -61,12 +64,29 @@ public class Entrenamiento : MonoBehaviour {
 		//la matriz Q se entrenara desde la perspectiva del j1
 
 		int partidasRealizadas = 0;
+		bool accionValida;
 
 		while (partidasRealizadas < numPartidas) {
 
+			if (!partidaEnCurso.victoria) {
+				accionJ1Anterior = accionJ1Anterior;
+				accionJ1 = decisionador.decidirMovimiento ();
+				accionJ2 = decisionador.decidirMovimiento ();
+				GuardaEstado ();
+				ejecutarAcciones ();
+
+			}
 
 		}
+		yield return null;
+	}
 
+	private void ejecutarAcciones()
+	{
+		switch (accionJ1) {
+		case GlobalData.MOVER_ARRIBA:
+			break;
+		}
 	}
 
 	private void GuardaEstado()
@@ -83,15 +103,20 @@ public class Entrenamiento : MonoBehaviour {
 		estadoActual [GlobalData.SALUD] = partidaEnCurso.j1.life;
 		estadoActual [GlobalData.CARGAS] = partidaEnCurso.j1.chargues;
 		estadoActual [GlobalData.ESCUDOS] = partidaEnCurso.j1.shield;
-		estadoActual [GlobalData.ENEMIGO_EN_RANGO] = partidaEnCurso.j1.posY;
-
+		if(comprobarSiEstanAlAlcance())
+			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 1;
+		else
+			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 0;
+		estadoActual [GlobalData.SALUD_ENEMIGO] = partidaEnCurso.j2.life;
+		estadoActual [GlobalData.ESCUDO_ENEMIGO] = partidaEnCurso.j2.shield;
+		estadoActual [GlobalData.CARGAS_ENEMIGO] = partidaEnCurso.j2.chargues;
 	}
 
 	public bool comprobarSiEstanAlAlcance()
 	{
 		//esta funcion cuenta las posiciones que seria necesario moverse para llegar a la posicion del otro jugador
 		//no hay diagonales
-		int distancia;
+		int distancia = 0;
 
 		distancia += Mathf.Abs (partidaEnCurso.j1.posX - partidaEnCurso.j2.posX);
 		distancia += 2 - partidaEnCurso.j1.posY;

@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class E_PlayerMovement {
 
+
+	///FILAS = POSX
+	/// COLUMNAS = POSY
+	/// 
+	/// 
+
 	/* public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
@@ -149,6 +155,32 @@ public class E_PlayerMovement {
 		return legalMove;
         //transform.position = positions[posX, posY].position;
     }
+
+	public bool CheckLegalMove(int movimiento)
+	{
+		switch (movimiento) {
+			case GlobalData.MOVER_ARRIBA:
+				if (posX == 0)
+					return false;
+		case GlobalData.MOVER_ABAJO:
+			if (posX == 2)
+				return false;
+		case GlobalData.MOVER_IZQ:
+			if (posY == 0)
+				return false;
+		case GlobalData.MOVER_DER:
+			if (posY == 2)
+				return false;
+		case GlobalData.DISPARO:
+			if (chargues <= 0)
+				return false;
+		case GlobalData.ESCUDO_ACCION:
+			if (shield <= 0)
+				return false;
+		}
+
+		return true;
+	}
     /*void Attack() {
 
         float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
