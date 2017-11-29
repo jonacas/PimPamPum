@@ -65,59 +65,68 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (myTurn) {
-			if (timer >= 1.0f) 
-			{
-				float random = Random.value;
-
-				if( random < 0.4f)
-					{
-						if (random < 0.1f) 
-						{
-							 Move (playerMovements.MoveUp);
-						} 
-						else if (random < 0.2f) 
-						{
-							Move (playerMovements.MoveLeft);
-						}
-						else if (random < 0.3f) 
-						{
-							Move (playerMovements.MoveRight);
-						} 
-						else
-						{
-							Move (playerMovements.MoveDown);
-						}
-						
-					}
-				else if( random < 0.6f)
-					{
-						defense = false;
-						Attack ();
-					}
-				else if( random < 0.8f)
-					{
-						defense = false;
-						Rechargue ();
-						
-					}
-				else
-					{
-						if (shield > 0) {	
-							defense = true;
-							shield = shield - 1;
-						}
-						print ("Escudos: " + shield);
-						
-					}
-
-				timer = 0.0f;
-				totalTurns = totalTurns + 1;
-				canvasReference.UpdateTurnNumberCanvas (totalTurns);
+			RandomCalculation ();
 			}
 				timer = timer + Time.deltaTime;			
-		}
+
 
     }
+
+	void RandomCalculation()
+	{
+	if (timer >= 1.0f) 
+	{
+		float random = Random.value;
+
+		if( random < 0.4f)
+		{
+			if (random < 0.1f) 
+			{
+				Move (playerMovements.MoveUp);
+			} 
+			else if (random < 0.2f) 
+			{
+				Move (playerMovements.MoveLeft);
+			}
+			else if (random < 0.3f) 
+			{
+				Move (playerMovements.MoveRight);
+			} 
+			else
+			{
+				Move (playerMovements.MoveDown);
+			}
+
+		}
+		else if( random < 0.6f)
+		{
+			defense = false;
+			Attack ();
+		}
+		else if( random < 0.8f)
+		{
+			defense = false;
+			Rechargue ();
+
+		}
+		else
+		{
+			if (shield > 0) {	
+				defense = true;
+				shield = shield - 1;
+			}
+			print ("Escudos: " + shield);
+
+		}
+
+		timer = 0.0f;
+		totalTurns = totalTurns + 1;
+		if (canvasReference != null) 
+		{
+			canvasReference.UpdateTurnNumberCanvas (totalTurns);
+		}
+	}
+}
 
 	void Move(playerMovements movement) {
 
@@ -147,10 +156,14 @@ public class PlayerMovement : MonoBehaviour {
        // posX = posX + (int)(Input.GetAxisRaw(horizontal));
        // posY = posY + (int)-(Input.GetAxisRaw(vertical));
 		legalMove = true;
-		if (posX < 0) { posX = 0; legalMove = false; }
-		else if (posX > 2) { posX = 2; legalMove = false; }
-		if (posY < 0) { posY = 0; legalMove = false;}
-		else if (posY > 2) { posY = 2; legalMove = false; }
+		if (posX < 0) 
+		{ posX = 0; legalMove = false; RandomCalculation (); }
+		else if (posX > 2) 
+		{ posX = 2; legalMove = false; RandomCalculation (); }
+		if (posY < 0)
+		{ posY = 0; legalMove = false; RandomCalculation ();}
+		else if (posY > 2)
+		{ posY = 2; legalMove = false; RandomCalculation (); }
         transform.position = positions[posX, posY].position;
 		if (legalMove) 
 		{
@@ -159,14 +172,20 @@ public class PlayerMovement : MonoBehaviour {
     }
     void Attack() {
 
-        float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
-        print("Distancia: " + distanceToEnemy); 
-        if(chargues > 0 && distanceToEnemy <= 7.5f )
-        {
-            rival.GetComponent<PlayerMovement>().Damage(1);
-            chargues = chargues - 1;
-        }
-
+		if (chargues <= 0) {
+			RandomCalculation ();
+		} 
+		else
+		{
+			float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
+			print("Distancia: " + distanceToEnemy); 
+			if(chargues > 0 && distanceToEnemy <= 7.5f )
+			{
+				rival.GetComponent<PlayerMovement>().Damage(1);
+				chargues = chargues - 1;
+			}
+		}
+      
 
     }
 
