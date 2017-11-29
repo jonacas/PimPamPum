@@ -489,7 +489,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1866345449951088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4661723845962654}
@@ -879,7 +879,6 @@ MonoBehaviour:
   horizontal: Horizontal1
   vertical: Vertical1
   rival: {fileID: 1543894210431394}
-  vida: {fileID: 0}
   fila1:
   - {fileID: 4892166790303222}
   - {fileID: 4663165998075638}
@@ -894,6 +893,8 @@ MonoBehaviour:
   - {fileID: 4405152287470938}
   myTurn: 1
   legalMove: 0
+  canvasReference: {fileID: 0}
+  totalTurns: 0
 --- !u!114 &114130109809330998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -922,7 +923,6 @@ MonoBehaviour:
   horizontal: Horizontal2
   vertical: Vertical2
   rival: {fileID: 1418745215988956}
-  vida: {fileID: 0}
   fila1:
   - {fileID: 4712365270440986}
   - {fileID: 4282000672170424}
@@ -937,3 +937,5 @@ MonoBehaviour:
   - {fileID: 4543172161038836}
   myTurn: 1
   legalMove: 0
+  canvasReference: {fileID: 0}
+  totalTurns: 0

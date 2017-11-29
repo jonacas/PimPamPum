@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
     public string horizontal;
     public string vertical;
     public GameObject rival;
-    public Slider vida;
     public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
@@ -16,13 +15,15 @@ public class PlayerMovement : MonoBehaviour {
     private int posX = 1;
     private int posY = 1;
     private float timer = 0.1f;
-    private int life;
+	private int life;
     private int shield;
     private int chargues;
     private bool defense = false;
 
 	public bool myTurn = true;
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
+	public CanvasManager canvasReference;
+	public int totalTurns = 0;
 
 	public enum playerActions
 	{
@@ -31,6 +32,14 @@ public class PlayerMovement : MonoBehaviour {
 		Move,
 		Guard
 	};
+
+	public int Life 
+	{
+		get {
+			return life;
+			}
+	}
+
 	public enum playerMovements
 	{
 		MoveUp,
@@ -56,7 +65,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (myTurn) {
-			if (timer >= 3.0f) 
+			if (timer >= 1.0f) 
 			{
 				float random = Random.value;
 
@@ -102,6 +111,8 @@ public class PlayerMovement : MonoBehaviour {
 					}
 
 				timer = 0.0f;
+				totalTurns = totalTurns + 1;
+				canvasReference.UpdateTurnNumberCanvas (totalTurns);
 			}
 				timer = timer + Time.deltaTime;			
 		}
@@ -135,6 +146,7 @@ public class PlayerMovement : MonoBehaviour {
 		}
        // posX = posX + (int)(Input.GetAxisRaw(horizontal));
        // posY = posY + (int)-(Input.GetAxisRaw(vertical));
+		legalMove = true;
 		if (posX < 0) { posX = 0; legalMove = false; }
 		else if (posX > 2) { posX = 2; legalMove = false; }
 		if (posY < 0) { posY = 0; legalMove = false;}
@@ -174,6 +186,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             life = life - damage;
             print("Vida " + life);
+			if (canvasReference != null) 
+			{
+				canvasReference.colorPlayerLifesCanvas (life);
+			}
+
         }
        
     }
