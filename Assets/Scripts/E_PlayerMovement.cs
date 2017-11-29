@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class E_PlayerMovement : MonoBehaviour {
+public class E_PlayerMovement {
 
-    public string horizontal;
-    public string vertical;
-    public GameObject rival;
-    public Slider vida;
-    public Transform[] fila1 = new Transform[3];
+	/* public Transform[] fila1 = new Transform[3];
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
-    private Transform[,] positions = new Transform[3,3];
-    private int posX = 1;
-    private int posY = 1;
-    private float timer = 0.1f;
-    private int life;
-    private int shield;
-    private int chargues;
-    private bool defense = false;
+    private Transform[,] positions = new Transform[3,3];*/
+	//private float timer = 0.1f;
+	//private bool defense = false;
+	//public GameObject rival;
+
+    //public string horizontal;
+    //public string vertical;
+    ///public Slider vida;
+	/// 
+	/// 
+    public int posX = 1;
+    public int posY = 1;
+
+    public int life;
+    public int shield;
+    public int chargues;
+
 
 	public bool myTurn = true;
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
@@ -40,21 +45,21 @@ public class E_PlayerMovement : MonoBehaviour {
 	};
 
     // Use this for initialization
-    void Start () {
+	public E_PlayerMovement () {
         life = 3;
         shield = 3;
         chargues = 1;
-        for (int i = 0; i < fila1.Length; i++) {
+        /*for (int i = 0; i < fila1.Length; i++) {
 
             positions[0, i] = fila1[i];
             positions[1, i] = fila2[i];
             positions[2, i] = fila3[i];
 
-        }
+        }*/
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 		if (myTurn) {
 			if (timer >= 3.0f) 
 			{
@@ -106,9 +111,11 @@ public class E_PlayerMovement : MonoBehaviour {
 				timer = timer + Time.deltaTime;			
 		}
 
-    }
+    }*/
 
-	void Move(playerMovements movement) {
+	public bool Move(playerMovements movement) {
+
+		legalMove = true;
 
 		switch (movement) 
 		{
@@ -139,13 +146,10 @@ public class E_PlayerMovement : MonoBehaviour {
 		else if (posX > 2) { posX = 2; legalMove = false; }
 		if (posY < 0) { posY = 0; legalMove = false;}
 		else if (posY > 2) { posY = 2; legalMove = false; }
-        transform.position = positions[posX, posY].position;
-		if (legalMove) 
-		{
-			legalMove = true;
-		}
+		return legalMove;
+        //transform.position = positions[posX, posY].position;
     }
-    void Attack() {
+    /*void Attack() {
 
         float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
         print("Distancia: " + distanceToEnemy); 
@@ -156,7 +160,7 @@ public class E_PlayerMovement : MonoBehaviour {
         }
 
 
-    }
+    }*/
 
     void Rechargue() {
 
@@ -164,18 +168,17 @@ public class E_PlayerMovement : MonoBehaviour {
         if (chargues < 5) {
 
             chargues = chargues + 1;
-            print("Cargas "+chargues);
+            //print("Cargas "+chargues);
         }
 
     }
     public void Damage(int damage) {
 
-        if (!defense)
-        {
+        // (!defense)
+        //{
             life = life - damage;
-            print("Vida " + life);
-        }
+            //print("Vida " + life);
+        //}
        
     }
-
 }

@@ -34,6 +34,8 @@ public static class GlobalData{
 	#endregion
 
 	#region INDICES ARRAY ESTADO
+	public const int TOTAL_INDICES_ARRAY_ESTADO = 9;
+
 	public const int FILA = 0;
 	public const int COLUMNA = 1;
 	public const int SALUD = 2;
@@ -61,4 +63,6 @@ public static class GlobalData{
 	public const int BAZOONGA = 7;
 	#endregion
 
+
+	public const bool PERMISO_PARA_REESCRIBIR_MATRICES_2 = true;
 }

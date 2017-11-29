@@ -24,7 +24,7 @@ public static class GestionMatrizQ {
 		//la ponemos en un soporte y creamos el archivo
 		MatrizQ<float[,]> soporteMatriz = new MatrizQ<float[,]>();
 		soporteMatriz.Matriz = matriz;
-		GestionDeArchivos<MatrizQ<float[,]>> gestorMatriz = new GestionDeArchivos<MatrizQ<float[,]>>("MatrizQ", soporteMatriz);
+		GestionDeArchivos<MatrizQ<float[,]>> gestorMatriz = new GestionDeArchivos<MatrizQ<float[,]>>("MatrizQ.cabronazo", soporteMatriz);
 		return gestorMatriz;
 	}
 

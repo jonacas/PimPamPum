@@ -22,7 +22,7 @@ public class GestionDeArchivos<T> {
     /// <param name="nombreArchivo"> Nombre del archivo que abrira</param>
 	public GestionDeArchivos(string nombreArchivo)
 	{
-		path = System.IO.Path.Combine (Application.streamingAssetsPath, nombreArchivo);
+		path = System.IO.Path.Combine (Application.streamingAssetsPath, nombreArchivo) + ".cagonTo";
 
 		if (File.Exists (path)) {
 			cargar ();
@@ -42,7 +42,7 @@ public class GestionDeArchivos<T> {
     /// <param name="obj">Objeto que se guardara en el archivo</param>
 	public GestionDeArchivos(string nombreArchivo, T obj)
 	{
-		path = System.IO.Path.Combine (Application.streamingAssetsPath, nombreArchivo);
+		path = System.IO.Path.Combine (Application.streamingAssetsPath, nombreArchivo) + ".cagonTo";
 		objeto = obj;
 		Guardar ();
 	}
