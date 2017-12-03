@@ -44,7 +44,7 @@ public class RellenadoDeMatrizRecompensa
 										for(int escudoEnemigo = 0; escudoEnemigo < GlobalData.VALORES_ESCUDO_ENEMIGO; escudoEnemigo++)
 										{
 											matriz[fila][columna][salud][cargas][escudos][powerUp][distanciaEnemigo][saludEnemigo][escudoEnemigo] = new int[GlobalData.VALORES_CARGA_ENEMIGO];
-											for (int cargasEnemigo = 0; cargasEnemigo < GlobalData.CARGAS_ENEMIGO; cargasEnemigo++) {
+											for (int cargasEnemigo = 0; cargasEnemigo < GlobalData.VALORES_CARGA_ENEMIGO; cargasEnemigo++) {
 	                                            
 												matriz [fila] [columna] [salud] [cargas] [escudos] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = 0;
 

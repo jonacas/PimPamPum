@@ -27,6 +27,12 @@ public class Entrenamiento : MonoBehaviour {
 			victoria = false;
 			turnos = 0;
 		}
+
+        public void NuevoTurno()
+        {
+            j1Escudo = j1Ataca = j1Bazoonga = false;
+			j2Escudo = j2Ataca = j2Bazoonga = false;
+        }
 	}
 
 	private const bool PERMISO_PARA_REESCRIBIR_MATRICES_1 = true;
@@ -36,22 +42,32 @@ public class Entrenamiento : MonoBehaviour {
 
 	private int accionJ1, accionJ2, accionJ1Anterior;
 	Decisionador decisionador;
-	GestionDeArchivos<MatrizQ<float[,]>> matQ;
+	GestionDeArchivos<MatrizQ<float[][]>> matQ;
 	GestionDeArchivos<MatrizRecompensa> matR;
 	private Partida partidaEnCurso;
 	private int[] estadoActual, estadoAnterior;
 
+
+
+    string debugJ1, debugJ2;
+
 	// Use this for initialization
 	void Awake () {
+
+        
 		decisionador = new Decisionador ();
 		crearMatrices ();
+
 		estadoActual = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
 		estadoAnterior = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
+        accionJ1 = 0;
+        StartCoroutine("Entrenar");
 	}
 
 	private void crearMatrices()
 	{
 		if (PERMISO_PARA_REESCRIBIR_MATRICES_1 && GlobalData.PERMISO_PARA_REESCRIBIR_MATRICES_2) {
+            Debug.Log("MATRICES CREADAS");
 			matQ = GestionMatrizQ.CrearMatrizQ ("MatrizQ00");
 			matR = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz ();
 		} else {
@@ -65,28 +81,188 @@ public class Entrenamiento : MonoBehaviour {
 
 		int partidasRealizadas = 0;
 		bool accionValida;
+        partidaEnCurso = new Partida();
+        partidaEnCurso.j1 = new E_PlayerMovement();
+        partidaEnCurso.j1.chargues = 3;
+        partidaEnCurso.j1.shield = 3;
+        partidaEnCurso.j2 = new E_PlayerMovement();
+        partidaEnCurso.j2.chargues = 3;
+        partidaEnCurso.j2.shield = 3;
 
 		while (partidasRealizadas < numPartidas) {
 
-			if (!partidaEnCurso.victoria) {
-				accionJ1Anterior = accionJ1Anterior;
-				accionJ1 = decisionador.decidirMovimiento ();
-				accionJ2 = decisionador.decidirMovimiento ();
-				GuardaEstado ();
-				ejecutarAcciones ();
+            if (!partidaEnCurso.victoria)
+            {
+                //, se guarda la accion, 0 para el primer turno
+                 accionJ1Anterior = accionJ1;
 
-			}
+                //se prepara para un turno nuevo
+                partidaEnCurso.NuevoTurno();
+
+
+                //se eligne acciones validad para los jugadores
+                accionValida = false;
+                while (!accionValida)
+                {
+                    accionJ1 = decisionador.decidirMovimiento();
+                    accionValida = partidaEnCurso.j1.CheckLegalMove(accionJ1);
+                }
+
+
+                accionValida = false;
+                while (!accionValida)
+                {
+                    accionJ2 = decisionador.decidirMovimiento();
+                    accionValida = partidaEnCurso.j2.CheckLegalMove(accionJ2);
+                }
+
+
+                //se guarda el estado que habia antes
+                GuardaEstado();
+                //se ejecutan las acciones
+                ejecutarAcciones();
+                Debug.Log("Turno " + partidaEnCurso.turnos + " J1 " + debugJ1 + " // J2 " + debugJ2);
+                //se obtiene el nuevo estado tras ejecutar las acicones
+                SetEstadoActual();
+                //se actualiza la matriz q
+                GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, accionJ1Anterior, estadoActual, accionJ1);
+
+                if (partidaEnCurso.j1.life <= 0 || partidaEnCurso.j2.life <= 0)
+                    partidaEnCurso.victoria = true;
+                
+            }
+            else
+            {
+                Debug.Log("Partida " + partidaEnCurso.id + " finalizada");
+                partidaEnCurso = new Partida();
+                partidaEnCurso.id = ++partidasRealizadas;
+                partidaEnCurso.j1 = new E_PlayerMovement();
+                partidaEnCurso.j1.chargues = 3;
+                partidaEnCurso.j1.shield = 3;
+                partidaEnCurso.j2 = new E_PlayerMovement();
+                partidaEnCurso.j2.chargues = 3;
+                partidaEnCurso.j2.shield = 3;
+                yield return null;
+            }
+
+            //if (partidaEnCurso.turnos % 60 == 0)
+                yield return null;
 
 		}
-		yield return null;
 	}
 
 	private void ejecutarAcciones()
 	{
+        debugJ1 = "";
+        debugJ2 = "";
+
 		switch (accionJ1) {
 		case GlobalData.MOVER_ARRIBA:
+                partidaEnCurso.j1.Move(playerMovements.MoveUp);
+                debugJ1 = "MOVER_ARRIBA";
 			break;
+        case GlobalData.MOVER_ABAJO:
+            partidaEnCurso.j1.Move(playerMovements.MoveDown);
+            debugJ1 = "MOVER_ABAJO";
+            break;
+        case GlobalData.MOVER_IZQ:
+            partidaEnCurso.j1.Move(playerMovements.MoveLeft);
+            debugJ1 = "MOVER_IZQ";
+            break;
+        case GlobalData.MOVER_DER:
+            partidaEnCurso.j1.Move(playerMovements.MoveRight);
+            debugJ1 = "MOVER_DER";
+            break;
+        case GlobalData.DISPARO:
+            partidaEnCurso.j1Ataca = true;
+            partidaEnCurso.j1.chargues--;
+            debugJ1 = "DISPARO";
+            break;
+        case GlobalData.ESCUDO_ACCION:
+            partidaEnCurso.j1Escudo = true;
+            partidaEnCurso.j1.shield--;
+            debugJ1 = "ESCUDO_ACCION";
+            break;
+        case GlobalData.CARGAR_DISPARO:
+            partidaEnCurso.j1.Rechargue();
+            debugJ1 = "CARGAR_DISPARO";
+            break;
+        case GlobalData.BAZOONGA:
+            partidaEnCurso.j1Bazoonga = true;
+            debugJ1 = "BAZOONGA";
+            break;
 		}
+
+        switch (accionJ2)
+        {
+            case GlobalData.MOVER_ARRIBA:
+                partidaEnCurso.j2.Move(playerMovements.MoveUp);
+                debugJ2 = "MOVER_ARRIBA";
+                break;
+            case GlobalData.MOVER_ABAJO:
+                partidaEnCurso.j2.Move(playerMovements.MoveDown);
+                debugJ2 = "MOVER_ABAJO";
+                break;
+            case GlobalData.MOVER_IZQ:
+                partidaEnCurso.j2.Move(playerMovements.MoveLeft);
+                debugJ2 = "MOVER_IZQ";
+                break;
+            case GlobalData.MOVER_DER:
+                partidaEnCurso.j2.Move(playerMovements.MoveRight);
+                debugJ2 = "MOVER_DER";
+                break;
+            case GlobalData.DISPARO:
+                partidaEnCurso.j2Ataca = true;
+                partidaEnCurso.j2.chargues--;
+                debugJ2 = "DISPARO";
+                break;
+            case GlobalData.ESCUDO_ACCION:
+                partidaEnCurso.j2Escudo = true;
+                partidaEnCurso.j2.shield--;
+                debugJ2 = "ESCUDO_ACCION";
+                break;
+            case GlobalData.CARGAR_DISPARO:
+                partidaEnCurso.j2.Rechargue();
+                debugJ2 = "CARGAR_DISPARO";
+                break;
+            case GlobalData.BAZOONGA:
+                partidaEnCurso.j2Bazoonga = true;
+                debugJ2 = "BAZOONGA";
+                break;
+        }
+
+        //si j1 tiene bazoonga y j2 no, j1 gana
+        if (partidaEnCurso.j1Bazoonga && !partidaEnCurso.j2Bazoonga)
+        {
+            partidaEnCurso.j2.Damage(3);
+        }
+
+        //si j1 tiene bazoonga y j2 no, j1 gana
+        if (partidaEnCurso.j2Bazoonga && !partidaEnCurso.j1Bazoonga)
+        {
+            partidaEnCurso.j1.Damage(3);
+        }
+
+        //si ataca j1 pero no el 2
+        if (partidaEnCurso.j1Ataca && !partidaEnCurso.j2Ataca)
+        {
+            //si j2 no ha usado el escudo
+            if (!partidaEnCurso.j2Escudo)
+            {
+                partidaEnCurso.j2.Damage();
+            }
+
+        }
+        //si ataca j2 pero no el 1
+        if (partidaEnCurso.j2Ataca && !partidaEnCurso.j1Ataca)
+        {
+            //si j2 no ha usado el escudo
+            if (!partidaEnCurso.j1Escudo)
+            {
+                partidaEnCurso.j1.Damage();
+            }
+
+        }
 	}
 
 	private void GuardaEstado()
@@ -98,18 +274,35 @@ public class Entrenamiento : MonoBehaviour {
 
 	private void SetEstadoActual()
 	{
-		estadoActual [GlobalData.FILA] = partidaEnCurso.j1.posX;
-		estadoActual [GlobalData.COLUMNA] = partidaEnCurso.j1.posY;
+		estadoActual [GlobalData.FILA] = partidaEnCurso.j1.posY;
+		estadoActual [GlobalData.COLUMNA] = partidaEnCurso.j1.posX;
 		estadoActual [GlobalData.SALUD] = partidaEnCurso.j1.life;
 		estadoActual [GlobalData.CARGAS] = partidaEnCurso.j1.chargues;
-		estadoActual [GlobalData.ESCUDOS] = partidaEnCurso.j1.shield;
+
+        if(partidaEnCurso.j1.shield > 0)
+		    estadoActual [GlobalData.ESCUDOS] = 1;
+        else
+            estadoActual[GlobalData.ESCUDOS] = 0;
+
+
 		if(comprobarSiEstanAlAlcance())
 			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 1;
 		else
 			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 0;
 		estadoActual [GlobalData.SALUD_ENEMIGO] = partidaEnCurso.j2.life;
-		estadoActual [GlobalData.ESCUDO_ENEMIGO] = partidaEnCurso.j2.shield;
+
+
+        if (partidaEnCurso.j2.shield > 0)
+            estadoActual[GlobalData.ESCUDOS] = 1;
+        else
+            estadoActual[GlobalData.ESCUDOS] = 0;
+
+
 		estadoActual [GlobalData.CARGAS_ENEMIGO] = partidaEnCurso.j2.chargues;
+
+        print("Estado j1: fila " + estadoActual[GlobalData.FILA] + " //columna" + estadoActual[GlobalData.COLUMNA] + " //salud " + estadoActual[GlobalData.SALUD] + " // cargas " + estadoActual[GlobalData.CARGAS] + " //escudos " + partidaEnCurso.j1.shield);
+        print("A tiro " + estadoActual[GlobalData.ENEMIGO_EN_RANGO]);
+        print("Estado j2:fila " + partidaEnCurso.j2.posY + " //columna" + partidaEnCurso.j2.posX + " //salud " + estadoActual[GlobalData.SALUD_ENEMIGO] + " // cargas " + estadoActual[GlobalData.CARGAS_ENEMIGO] + " //escudos " + partidaEnCurso.j2.shield);
 	}
 
 	public bool comprobarSiEstanAlAlcance()
@@ -118,9 +311,9 @@ public class Entrenamiento : MonoBehaviour {
 		//no hay diagonales
 		int distancia = 0;
 
-		distancia += Mathf.Abs (partidaEnCurso.j1.posX - partidaEnCurso.j2.posX);
-		distancia += 2 - partidaEnCurso.j1.posY;
-		distancia += partidaEnCurso.j2.posY + 1;
+		distancia += Mathf.Abs (partidaEnCurso.j1.posY - partidaEnCurso.j2.posY);
+		distancia += 2 - partidaEnCurso.j1.posX;
+		distancia += partidaEnCurso.j2.posX + 1;
 
 		if (distancia <= 3)
 			return true;

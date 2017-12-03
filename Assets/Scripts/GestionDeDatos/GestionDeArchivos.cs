@@ -6,12 +6,18 @@ using System.IO;
 public class GestionDeArchivos<T> {
 
 	string path;
-	T objeto;
+	public T objeto;
 
     public T Objeto
     {
-        get;
-        set;
+        get
+        {
+            return objeto;
+        }
+        set
+        {
+            objeto = value;
+        }
     }
 
 

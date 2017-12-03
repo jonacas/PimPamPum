@@ -1,7 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+
+public enum playerActions
+{
+    Charge,
+    Shoot,
+    Move,
+    Guard
+};
+public enum playerMovements
+{
+    MoveUp,
+    MoveRight,
+    MoveLeft,
+    MoveDown
+};
+
 
 public class E_PlayerMovement {
 
@@ -35,20 +49,7 @@ public class E_PlayerMovement {
 	public bool myTurn = true;
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
 
-	public enum playerActions
-	{
-		Charge, 
-		Shoot,
-		Move,
-		Guard
-	};
-	public enum playerMovements
-	{
-		MoveUp,
-		MoveRight,
-		MoveLeft,
-		MoveDown
-	};
+
 
     // Use this for initialization
 	public E_PlayerMovement () {
@@ -127,7 +128,7 @@ public class E_PlayerMovement {
 		{
 		case playerMovements.MoveDown:
 			{
-				posY = posY - 1;	
+				posY = posY + 1;	
 				break;
 			}
 		case playerMovements.MoveLeft:
@@ -142,7 +143,7 @@ public class E_PlayerMovement {
 			}
 		case playerMovements.MoveUp:
 			{
-				posY = posY + 1;
+				posY = posY - 1;
 				break;
 			}
 		}
@@ -160,23 +161,34 @@ public class E_PlayerMovement {
 	{
 		switch (movimiento) {
 			case GlobalData.MOVER_ARRIBA:
-				if (posX == 0)
+				if (posY == 0)
 					return false;
+                break;
+
 		case GlobalData.MOVER_ABAJO:
-			if (posX == 2)
-				return false;
-		case GlobalData.MOVER_IZQ:
-			if (posY == 0)
-				return false;
-		case GlobalData.MOVER_DER:
 			if (posY == 2)
 				return false;
+            break;
+
+		case GlobalData.MOVER_IZQ:
+			if (posX == 0)
+				return false;
+            break;
+
+		case GlobalData.MOVER_DER:
+			if (posX == 2)
+				return false;
+            break;
+
 		case GlobalData.DISPARO:
 			if (chargues <= 0)
 				return false;
+            break;
+
 		case GlobalData.ESCUDO_ACCION:
 			if (shield <= 0)
 				return false;
+            break;
 		}
 
 		return true;
@@ -194,7 +206,7 @@ public class E_PlayerMovement {
 
     }*/
 
-    void Rechargue() {
+    public void Rechargue() {
 
 
         if (chargues < 5) {
@@ -204,7 +216,7 @@ public class E_PlayerMovement {
         }
 
     }
-    public void Damage(int damage) {
+    public void Damage(int damage = 1) {
 
         // (!defense)
         //{

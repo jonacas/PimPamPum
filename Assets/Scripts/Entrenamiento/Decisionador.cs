@@ -19,7 +19,7 @@ public class Decisionador{
 			
 		case AL_AZAR:
 		default:
-			return Random.Range(0, GlobalData.TOTAL_ACCIONES);
+			return Random.Range(0, GlobalData.TOTAL_ACCIONES - 1 /*bazzonga no se elige*/);
 
 		}
 
