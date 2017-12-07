@@ -20,8 +20,8 @@ public enum playerMovements
 public class E_PlayerMovement {
 
 
-	///FILAS = POSX
-	/// COLUMNAS = POSY
+	///FILAS = POSY
+	/// COLUMNAS = POSX
 	/// 
 	/// 
 

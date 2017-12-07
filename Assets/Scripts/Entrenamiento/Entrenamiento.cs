@@ -47,7 +47,9 @@ public class Entrenamiento : MonoBehaviour {
 	private Partida partidaEnCurso;
 	private int[] estadoActual, estadoAnterior;
 
-
+    //para controlar la aparicion del escudo
+    private int turnoEscudo1, turnoEscudo2;
+    bool powerUpActivo1, powerUpActivo2;
 
     string debugJ1, debugJ2;
 
@@ -78,7 +80,6 @@ public class Entrenamiento : MonoBehaviour {
 	IEnumerator Entrenar()
 	{
 		//la matriz Q se entrenara desde la perspectiva del j1
-
 		int partidasRealizadas = 0;
 		bool accionValida;
         partidaEnCurso = new Partida();
@@ -88,6 +89,7 @@ public class Entrenamiento : MonoBehaviour {
         partidaEnCurso.j2 = new E_PlayerMovement();
         partidaEnCurso.j2.chargues = 3;
         partidaEnCurso.j2.shield = 3;
+        turnoEscudo1 = turnoEscudo2 = 0;
 
 		while (partidasRealizadas < numPartidas) {
 
@@ -99,21 +101,31 @@ public class Entrenamiento : MonoBehaviour {
                 //se prepara para un turno nuevo
                 partidaEnCurso.NuevoTurno();
 
+                //se comprueba si alguno tiene el bazoonga
+                comprobarBazoongas();
 
-                //se eligne acciones validad para los jugadores
-                accionValida = false;
-                while (!accionValida)
+                //comprobamos aparicion del escudo
+                aparicionEscudo();
+
+                //se eligne acciones validad para los jugadores SI NO TIENEN BAZOONGA
+                if (!partidaEnCurso.j1Bazoonga)
                 {
-                    accionJ1 = decisionador.decidirMovimiento();
-                    accionValida = partidaEnCurso.j1.CheckLegalMove(accionJ1);
+                    accionValida = false;
+                    while (!accionValida)
+                    {
+                        accionJ1 = decisionador.decidirMovimiento();
+                        accionValida = partidaEnCurso.j1.CheckLegalMove(accionJ1);
+                    }
                 }
 
-
-                accionValida = false;
-                while (!accionValida)
+                if (!partidaEnCurso.j2Bazoonga)
                 {
-                    accionJ2 = decisionador.decidirMovimiento();
-                    accionValida = partidaEnCurso.j2.CheckLegalMove(accionJ2);
+                    accionValida = false;
+                    while (!accionValida)
+                    {
+                        accionJ2 = decisionador.decidirMovimiento();
+                        accionValida = partidaEnCurso.j2.CheckLegalMove(accionJ2);
+                    }
                 }
 
 
@@ -121,12 +133,18 @@ public class Entrenamiento : MonoBehaviour {
                 GuardaEstado();
                 //se ejecutan las acciones
                 ejecutarAcciones();
+
+                partidaEnCurso.turnos++;
                 Debug.Log("Turno " + partidaEnCurso.turnos + " J1 " + debugJ1 + " // J2 " + debugJ2);
                 //se obtiene el nuevo estado tras ejecutar las acicones
                 SetEstadoActual();
                 //se actualiza la matriz q
                 GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, accionJ1Anterior, estadoActual, accionJ1);
 
+                //comprobamos si alguien ha cogio el escudo
+                comprobarRecogidaEscudo();
+
+                print("Valor R: " + matR.Objeto.GetValor(estadoActual) + "// Valor Q: " + matQ.Objeto.Matriz[GestionMatrizQ.calcularFila(estadoActual)][accionJ1]);
                 if (partidaEnCurso.j1.life <= 0 || partidaEnCurso.j2.life <= 0)
                     partidaEnCurso.victoria = true;
                 
@@ -142,6 +160,7 @@ public class Entrenamiento : MonoBehaviour {
                 partidaEnCurso.j2 = new E_PlayerMovement();
                 partidaEnCurso.j2.chargues = 3;
                 partidaEnCurso.j2.shield = 3;
+                turnoEscudo1 = turnoEscudo2 = 0;
                 yield return null;
             }
 
@@ -150,6 +169,62 @@ public class Entrenamiento : MonoBehaviour {
 
 		}
 	}
+
+    private void comprobarRecogidaEscudo()
+    {
+        if (powerUpActivo1)
+        {
+            if (partidaEnCurso.j1.posX == 1 && partidaEnCurso.j1.posY == 1)
+            {
+                print("J1 coge escudo");
+                partidaEnCurso.j1.shield++;
+                powerUpActivo1 = false;
+                turnoEscudo1 = partidaEnCurso.turnos;
+            }
+        }
+
+        if (powerUpActivo2)
+        {
+            if (partidaEnCurso.j2.posX == 1 && partidaEnCurso.j2.posY == 1)
+            {
+                print("J2 coge escudo");
+                partidaEnCurso.j2.shield++;
+                powerUpActivo2 = false;
+                turnoEscudo2 = partidaEnCurso.turnos;
+            }
+        }
+    }
+
+    private void aparicionEscudo()
+    {
+        if (!powerUpActivo1 &&  partidaEnCurso.turnos > turnoEscudo1 + 3)
+        {
+            if (Random.value > 0.7)
+            {
+                powerUpActivo1 = true;
+            }
+        }
+
+        if (!powerUpActivo2 && partidaEnCurso.turnos > turnoEscudo2 + 3)
+        {
+            if (Random.value > 0.7)
+            {
+                powerUpActivo2 = true;
+            }
+        }
+    }
+
+    private void comprobarBazoongas()
+    {
+        if (partidaEnCurso.j1.chargues >= 5)
+        {
+            partidaEnCurso.j1Bazoonga = true;
+            accionJ1 = GlobalData.BAZOONGA;
+        }
+        if (partidaEnCurso.j2.chargues >= 5)
+            partidaEnCurso.j2Bazoonga = true;
+        accionJ2 = GlobalData.BAZOONGA;
+    }
 
 	private void ejecutarAcciones()
 	{
@@ -188,8 +263,15 @@ public class Entrenamiento : MonoBehaviour {
             debugJ1 = "CARGAR_DISPARO";
             break;
         case GlobalData.BAZOONGA:
-            partidaEnCurso.j1Bazoonga = true;
+                //solo si el otro no tiene bazzonga se pone a false
+                //esto es para que el otro tambien pueda reaccionar adecuadamente
+            if (!partidaEnCurso.j2Bazoonga)
+            {
+                partidaEnCurso.j2.Damage(3);
+                partidaEnCurso.j1Bazoonga = false;
+            }
             debugJ1 = "BAZOONGA";
+            partidaEnCurso.j1.chargues = 0;
             break;
 		}
 
@@ -226,7 +308,11 @@ public class Entrenamiento : MonoBehaviour {
                 debugJ2 = "CARGAR_DISPARO";
                 break;
             case GlobalData.BAZOONGA:
-                partidaEnCurso.j2Bazoonga = true;
+                if (!partidaEnCurso.j1Bazoonga)
+                    partidaEnCurso.j1.Damage(3);
+                partidaEnCurso.j1Bazoonga = false;
+                partidaEnCurso.j2Bazoonga = false;
+                partidaEnCurso.j2.chargues = 0;
                 debugJ2 = "BAZOONGA";
                 break;
         }
@@ -284,6 +370,10 @@ public class Entrenamiento : MonoBehaviour {
         else
             estadoActual[GlobalData.ESCUDOS] = 0;
 
+        if (powerUpActivo1)
+            estadoActual[GlobalData.POWER_UP] = 1;
+        else
+            estadoActual[GlobalData.POWER_UP] = 0;
 
 		if(comprobarSiEstanAlAlcance())
 			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 1;

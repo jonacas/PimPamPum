@@ -74,11 +74,11 @@ public class RellenadoDeMatrizRecompensa
 												}
 
 												//si esta a tiro sin tener escudos
-												if(distanciaEnemigo == 1 && escudos < 1)
-													matriz [fila] [columna] [salud] [cargas] [escudos] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = -5;
+												else if(distanciaEnemigo == 1 && escudos < 1)
+													matriz [fila] [columna] [salud] [cargas] [escudos] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = -2;
 												//resto de casos
 	                                            else {
-														matriz [fila] [columna] [salud] [cargas] [escudos] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = (salud - saludEnemigo) + (cargas - cargasEnemigo);
+														matriz [fila] [columna] [salud] [cargas] [escudos] [powerUp] [distanciaEnemigo] [saludEnemigo] [escudoEnemigo] [cargasEnemigo] = (salud - saludEnemigo) * 2 /*+ (cargas - cargasEnemigo)*/;
 												}
 
 

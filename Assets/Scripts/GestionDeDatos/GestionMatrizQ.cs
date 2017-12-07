@@ -51,6 +51,7 @@ public static class GestionMatrizQ {
 		(matR.GetValor(estadoFuturo) + factorDescuento * buscarMaximoEnFila (mat, filaDestino, GlobalData.TOTAL_ACCIONES)
 				- mat.Matriz [filaOrigen][accionAnterior]);
 
+
 		return filaDestino;
 	}
 
@@ -65,7 +66,7 @@ public static class GestionMatrizQ {
 		return maximo;
 	}
 
-	private static int calcularFila(int[] estado)
+	public static int calcularFila(int[] estado)
 	{
 		int filaDestino = 0;
 		//se suma la aportacion de cada variable al valor de la fila
