@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour {
     public Transform[] fila2 = new Transform[3];
     public Transform[] fila3 = new Transform[3];
     private Transform[,] positions = new Transform[3,3];
-    private int posX = 1;
-    private int posY = 1;
+	public int posX = 1;
+	public int posY = 1;
     private float timer = 0.1f;
 	private int life;
-    private int shield;
-    private int chargues;
+    public int shield;
+	public int chargues;
     private bool defense = false;
 
 	public bool myTurn = true;
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
 	public CanvasManager canvasReference;
 	public int totalTurns = 0;
     
+	public float distanceToEnemy;
 
 	public int Life 
 	{
@@ -55,6 +56,7 @@ public class PlayerMovement : MonoBehaviour {
 			}
 				timer = timer + Time.deltaTime;			
 
+		distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
 
     }
 
@@ -159,10 +161,15 @@ public class PlayerMovement : MonoBehaviour {
 		} 
 		else
 		{
-			float distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
+			 
 			print("Distancia: " + distanceToEnemy); 
 			if(chargues > 0 && distanceToEnemy <= 7.5f )
 			{
+				if (chargues == 5) 
+				{
+					rival.GetComponent<PlayerMovement> ().Damage (2);
+					chargues = 0;
+				}
 				rival.GetComponent<PlayerMovement>().Damage(1);
 				chargues = chargues - 1;
 			}
@@ -179,11 +186,18 @@ public class PlayerMovement : MonoBehaviour {
             chargues = chargues + 1;
             print("Cargas "+chargues);
         }
+		else if (chargues == 5) 
+		{
+			print ("Carga máxima conseguida");
+		}
 
     }
     public void Damage(int damage) {
-
-        if (!defense)
+		if (damage == 2) 
+		{
+			life = 0;
+		}
+        else if (!defense)
         {
             life = life - damage;
             print("Vida " + life);

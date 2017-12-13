@@ -8,8 +8,12 @@ public class TurnBasedBehaviour : MonoBehaviour {
 
 	//Gestion de partida: turnos, gameflow...
 
-	public GameObject[] playerReferences;
+	public PlayerMovement humanoReferencia;
+	public PlayerMovement IAReferencia;
 
+	public GameObject modeladoEscudo;
+	private bool activeHumanShield = false;
+	private bool activeIAShield = false;
 
 	//Hacer la funcion que hace la foto.
 
@@ -21,45 +25,63 @@ public class TurnBasedBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		gamePaceManager ();		
-
-		if (Input.GetKeyDown (KeyCode.F1)) 
+		if (humanoReferencia.shield == 0 && !activeHumanShield ) 
 		{
-			Debug.Log ("Es turno del jugador 1");
-			enableTurn (0);
-			disableTurn (1);
+			spawneoEscudo (1);
+			activeHumanShield = true;
 		}
-		if (Input.GetKeyDown (KeyCode.F2)) 
+		if (IAReferencia.shield == 0 && !activeIAShield) 
 		{
-			Debug.Log ("Es turno del jugador 2");
-			enableTurn (1);
-			disableTurn (0);
+			spawneoEscudo (2);
+			activeIAShield = true;
 		}
-
-
 	}
 
-	void gamePaceManager()
+	public void spawneoEscudo(int lado)
 	{
-		// Primero, pediremos los inputs de cada jugador.
-		// Después, calcularemos el peso que tiene la acción del enemigo
-		//siguiendo las variables correspondientes.
-		// Por último, actualizaremos estado actual de los jugadores.
-		// Si en esta actualizacion hay Game Over (se acaban los turnos o alguien muere)
-		// Se pasa a pantalla de fin de partida.
-
-
+		if (lado == 1) 
+		{
+			//Haz aparecer el escudo.
+		}
+		if (lado == 2) 
+		{
+			//Haz aparecer el escudo.
+		}
+		
 	}
 
+	//Haz una funcion para que detecte la colision del escudo
+	//generado, y entonces resetea el booleano correspondiente.
 
-	public void enableTurn(int jugador)
+	public int[] GetCurrentGameState()
 	{
-		playerReferences [jugador].GetComponent<PlayerMovement> ().myTurn = true;
-	}
+		int shieldAux = 0;
+		int rangeAux = 0;
+		if (activeHumanShield) 
+		{
+			shieldAux = 1;
+		}
+		if (humanoReferencia.distanceToEnemy < 7.5f) 
+		{
+			rangeAux = 1;
+		}
+		int[] gameState = new int[]
+		{
+			humanoReferencia.posX, //Añadir la fila del playerMovement,
+			humanoReferencia.posY, //Añadir la columna del playerMovement,
+			humanoReferencia.Life, //Añadir la vida del jugador segun el PlayerMovement,
+			humanoReferencia.chargues, //Añadir el numero de cargas del jugador.
+			humanoReferencia.shield, //Añadir el nº de escudos del jugador segun el PlayerMovement,
+			shieldAux, //Añadir si el powerup esta activo,
+			rangeAux,//Añadir si el enemigo esta al alcance,
+			IAReferencia.Life,//Añadir la salud del enemigo,
+			IAReferencia.shield,//Añadir el numero de escudos del enemigo,
+			IAReferencia.chargues//Añadir el numero de cargas del enemigo
+		};
 
-	public void disableTurn(int jugador)
-	{
-		playerReferences [jugador].GetComponent<PlayerMovement> ().myTurn = false;
+		return gameState;
+
+
 	}
 
 
