@@ -29,7 +29,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float distanceToEnemy;
 
 	public bool IAPhase;
+	public bool IAMovementAllowed;
+
 	public float timerBetweenTurns = 0.0F;
+	public float targetTimeBetweenTurns = 3.0f;
+	public Button[] ActionButtons;
+
 
 	public int Life 
 	{
@@ -62,9 +67,36 @@ public class PlayerMovement : MonoBehaviour {
 			//RandomCalculation ();
 			}
 				timer = timer + Time.deltaTime;			
+		if (ActionButtons.Length > 0) 
+		{
+			if (timerBetweenTurns > targetTimeBetweenTurns && ActionButtons [0].interactable == false) 
+			{
+				EnableActionButtons ();
+			}
+			else
+			{
+				timerBetweenTurns += Time.deltaTime;
+			}
+		}
 
 		distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
     }
+
+	public void DisableActionButtons()
+	{
+		for (int i = 0; i < ActionButtons.Length; i++) 
+		{
+			ActionButtons [i].interactable = false;
+		}
+	}
+
+	public void EnableActionButtons()
+	{
+		for (int i = 0; i < ActionButtons.Length; i++) 
+		{
+			ActionButtons [i].interactable = true;
+		}
+	}
 
 	public void RandomCalculation()
 	{
@@ -120,9 +152,21 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			canvasReference.UpdateTurnNumberCanvas (totalTurns);
 		}
-		IAPhase = true;
-		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
+		if (ActionButtons.Length > 0) 
+		{
+			DisableActionButtons ();
+		}
+		timerBetweenTurns = 0.0f;
 
+		IAPhase = true;
+		IAMovementAllowed = false;
+		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
+		/*
+		while (!IAMovementAllowed) 
+		{
+			
+		}
+		*/
 		//AQUI FINALIZA EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
 		IAPhase = false;
 
@@ -163,17 +207,19 @@ public class PlayerMovement : MonoBehaviour {
        // posY = posY + (int)-(Input.GetAxisRaw(vertical));
 		legalMove = true;
 		if (posX < 0) 
-		{ posX = 0; legalMove = false; /*RandomCalculation ()*/ }
+		{ posX = 0; legalMove = false;  IAMovementAllowed = false; /*RandomCalculation ()*/ }
 		else if (posX > 2) 
-		{ posX = 2; legalMove = false; /*RandomCalculation ()*/ }
+		{ posX = 2; legalMove = false;  IAMovementAllowed = false; /*RandomCalculation ()*/ }
 		if (posY < 0)
-		{ posY = 0; legalMove = false;/*RandomCalculation ()*/}
+		{ posY = 0; legalMove = false;  IAMovementAllowed = false;/*RandomCalculation ()*/}
         else if (posY > 2)
-		{ posY = 2; legalMove = false; /*RandomCalculation ()*/ }
-        transform.position = positions[posX, posY].position;
+		{ posY = 2; legalMove = false;  IAMovementAllowed = false; /*RandomCalculation ()*/ }
+       
+		transform.position = positions[posX, posY].position;
 		if (legalMove) 
 		{
 			legalMove = true;
+			IAMovementAllowed = true;
 			if (!IAPhase) {
 				UpdateNumberOfTurns ();
 			}
@@ -206,10 +252,11 @@ public class PlayerMovement : MonoBehaviour {
 				if (!IAPhase) {
 					UpdateNumberOfTurns ();
 				}
+				IAMovementAllowed = true;
 			}
 		
 		}
-      
+		IAMovementAllowed = false;
 
     }
 
@@ -229,6 +276,7 @@ public class PlayerMovement : MonoBehaviour {
 		if (!IAPhase) {
 			UpdateNumberOfTurns ();
 		}
+		IAMovementAllowed = true;
 
     }
     public void Damage(int damage) {
@@ -249,14 +297,61 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Defense() {
 
-        if (shield > 0)
-        {
-            defense = true;
-            shield = shield - 1;
-			if (!IAPhase) {
+		if (shield > 0) {
+			defense = true;
+			shield = shield - 1;
+			if (!IAPhase) 
+			{
 				UpdateNumberOfTurns ();
+				IAMovementAllowed = true;
 			}
-        }
+		}
+		else
+		{
+			IAMovementAllowed = false;
+		}
     }
+
+	public void PlayerActionToMovement(playerActions action)
+	{
+		switch (action) 
+		{
+		case playerActions.Charge:
+			{
+				Rechargue ();
+				break;
+			}
+		case playerActions.Guard:
+			{
+				Defense ();
+				break;
+			}
+		case playerActions.Shoot:
+			{
+				Attack ();
+				break;
+			}
+		case playerActions.MoveDown:
+			{
+				Move (1);
+				break;
+			}
+		case playerActions.MoveLeft:
+			{
+				Move (2);
+				break;
+			}
+		case playerActions.MoveUp:
+			{
+				Move (4);
+				break;
+			}
+		case playerActions.MoveRight:
+			{
+				Move (3);
+				break;
+			}
+		}
+	}
 
 }

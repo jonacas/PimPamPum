@@ -898,8 +898,12 @@ MonoBehaviour:
   myTurn: 1
   legalMove: 0
   canvasReference: {fileID: 0}
+  lifeSlider: {fileID: 0}
   totalTurns: 0
   distanceToEnemy: 0
+  IAPhase: 0
+  timerBetweenTurns: 0
+  ActionButtons: []
 --- !u!114 &114130109809330998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -947,5 +951,16 @@ MonoBehaviour:
   myTurn: 1
   legalMove: 0
   canvasReference: {fileID: 0}
+  lifeSlider: {fileID: 0}
   totalTurns: 0
   distanceToEnemy: 0
+  IAPhase: 0
+  timerBetweenTurns: 0
+  ActionButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

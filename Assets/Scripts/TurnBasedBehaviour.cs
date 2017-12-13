@@ -57,10 +57,12 @@ public class TurnBasedBehaviour : MonoBehaviour {
 		if (humanoReferencia.Life <= 0) 
 		{
 			Debug.Log ("LA IA HA GANADO!!!");
+			humanoReferencia.DisableActionButtons ();
 		}
 		else if (IAReferencia.Life <= 0) 
 		{
 			Debug.Log ("el jugador ha ganado!!!");
+			humanoReferencia.DisableActionButtons ();
 		}
 	}
 
