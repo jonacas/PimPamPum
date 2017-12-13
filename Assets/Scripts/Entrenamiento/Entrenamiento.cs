@@ -179,7 +179,7 @@ public class Entrenamiento : MonoBehaviour {
 
                 if (partidasRealizadas % 1000 == 0)
                 {
-                    new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 10), matQ.objeto);
+                    new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 1000), matQ.objeto);
                 }
 
                 yield return null;
