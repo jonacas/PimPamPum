@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float distanceToEnemy;
 
 	public bool IAPhase;
+	public float timerBetweenTurns = 0.0F;
 
 	public int Life 
 	{
@@ -63,7 +64,6 @@ public class PlayerMovement : MonoBehaviour {
 				timer = timer + Time.deltaTime;			
 
 		distanceToEnemy = Vector3.Distance(rival.transform.position, transform.position);
-
     }
 
 	public void RandomCalculation()

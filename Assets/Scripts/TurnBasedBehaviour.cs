@@ -35,6 +35,8 @@ public class TurnBasedBehaviour : MonoBehaviour {
 			spawneoEscudo (2);
 			activeIAShield = true;
 		}
+
+		CheckGameOver ();
 	}
 
 	public void spawneoEscudo(int lado)
@@ -49,6 +51,20 @@ public class TurnBasedBehaviour : MonoBehaviour {
 		}
 		
 	}
+
+	public void CheckGameOver()
+	{
+		if (humanoReferencia.Life <= 0) 
+		{
+			Debug.Log ("LA IA HA GANADO!!!");
+		}
+		else if (IAReferencia.Life <= 0) 
+		{
+			Debug.Log ("el jugador ha ganado!!!");
+		}
+	}
+
+
 
 	//Haz una funcion para que detecte la colision del escudo
 	//generado, y entonces resetea el booleano correspondiente.
