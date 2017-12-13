@@ -105,13 +105,21 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		timer = 0.0f;
+	}
+}
+
+	public void UpdateNumberOfTurns()
+	{
 		totalTurns = totalTurns + 1;
 		if (canvasReference != null) 
 		{
 			canvasReference.UpdateTurnNumberCanvas (totalTurns);
 		}
+
+		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
+
+
 	}
-}
 
 	public void Move(int move) {
 
@@ -159,7 +167,11 @@ public class PlayerMovement : MonoBehaviour {
 		if (legalMove) 
 		{
 			legalMove = true;
+			UpdateNumberOfTurns ();
 		}
+
+
+
     }
     public void Attack() {
 
@@ -172,14 +184,19 @@ public class PlayerMovement : MonoBehaviour {
 			print("Distancia: " + distanceToEnemy); 
 			if(chargues > 0 && distanceToEnemy <= 7.5f )
 			{
-				if (chargues == 5) 
+				if (chargues == 5)
 				{
 					rival.GetComponent<PlayerMovement> ().Damage (2);
 					chargues = 0;
 				}
-				rival.GetComponent<PlayerMovement>().Damage(1);
-				chargues = chargues - 1;
+				else
+				{
+					rival.GetComponent<PlayerMovement>().Damage(1);
+					chargues = chargues - 1;
+				}
+				UpdateNumberOfTurns ();
 			}
+		
 		}
       
 
@@ -198,6 +215,8 @@ public class PlayerMovement : MonoBehaviour {
 			print ("Carga máxima conseguida");
 		}
 
+		UpdateNumberOfTurns ();
+
     }
     public void Damage(int damage) {
 		if (damage == 2) 
@@ -208,13 +227,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             life = life - damage;
             print("Vida " + life);
-			if (canvasReference != null && lifeSlider != null) 
-			{
-				canvasReference.colorPlayerLifesCanvas (life, lifeSlider);
-			}
-
         }
-       
+		if (canvasReference != null && lifeSlider != null) 
+		{
+			canvasReference.colorPlayerLifesCanvas (life, lifeSlider);
+		}       
     }
 
     public void Defense() {
@@ -223,8 +240,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             defense = true;
             shield = shield - 1;
+			UpdateNumberOfTurns ();
         }
-
     }
 
 }
