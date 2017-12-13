@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float distanceToEnemy;
 
 	public bool IAPhase;
-	public bool IAMovementAllowed;
+	public bool IAMovementAllowed = false;
 
 	public float timerBetweenTurns = 0.0F;
 	public float targetTimeBetweenTurns = 3.0f;
@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour {
 		IAMovementAllowed = false;
 		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
 		/*
-		while (!IAMovementAllowed) 
+		while (!rival.GetComponent<PlayerMovement>().IAMovmentAllowed) 
 		{
 			
 		}
@@ -318,37 +318,44 @@ public class PlayerMovement : MonoBehaviour {
 		{
 		case playerActions.Charge:
 			{
-				Rechargue ();
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Rechargue ();
 				break;
 			}
 		case playerActions.Guard:
 			{
-				Defense ();
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Defense ();
 				break;
 			}
 		case playerActions.Shoot:
 			{
-				Attack ();
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Attack ();
 				break;
 			}
 		case playerActions.MoveDown:
 			{
-				Move (1);
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Move (1);
 				break;
 			}
 		case playerActions.MoveLeft:
 			{
-				Move (2);
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Move (2);
 				break;
 			}
 		case playerActions.MoveUp:
 			{
-				Move (4);
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Move (4);
 				break;
 			}
 		case playerActions.MoveRight:
 			{
-				Move (3);
+				rival.GetComponent<PlayerMovement> ().IAPhase = true;
+				rival.GetComponent<PlayerMovement>().Move (3);
 				break;
 			}
 		}
