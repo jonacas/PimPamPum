@@ -24,14 +24,7 @@ public class PlayerMovement : MonoBehaviour {
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
 	public CanvasManager canvasReference;
 	public int totalTurns = 0;
-
-	public enum playerActions
-	{
-		Charge, 
-		Shoot,
-		Move,
-		Guard
-	};
+    
 
 	public int Life 
 	{
@@ -40,14 +33,7 @@ public class PlayerMovement : MonoBehaviour {
 			}
 	}
 
-	public enum playerMovements
-	{
-		MoveUp,
-		MoveRight,
-		MoveLeft,
-		MoveDown
-	};
-
+	
     // Use this for initialization
     void Start () {
         life = 3;
@@ -82,19 +68,19 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			if (random < 0.1f) 
 			{
-				Move (playerMovements.MoveUp);
+				Move (playerActions.MoveUp);
 			} 
 			else if (random < 0.2f) 
 			{
-				Move (playerMovements.MoveLeft);
+				Move (playerActions.MoveLeft);
 			}
 			else if (random < 0.3f) 
 			{
-				Move (playerMovements.MoveRight);
+				Move (playerActions.MoveRight);
 			} 
 			else
 			{
-				Move (playerMovements.MoveDown);
+				Move (playerActions.MoveDown);
 			}
 
 		}
@@ -128,26 +114,26 @@ public class PlayerMovement : MonoBehaviour {
 	}
 }
 
-	void Move(playerMovements movement) {
+	void Move(playerActions movement) {
 
 		switch (movement) 
 		{
-		case playerMovements.MoveDown:
+		case playerActions.MoveDown:
 			{
 				posY = posY - 1;	
 				break;
 			}
-		case playerMovements.MoveLeft:
+		case playerActions.MoveLeft:
 			{
 				posX = posX - 1;
 				break;
 			}
-		case playerMovements.MoveRight:
+		case playerActions.MoveRight:
 			{
 				posX = posX + 1;
 				break;
 			}
-		case playerMovements.MoveUp:
+		case playerActions.MoveUp:
 			{
 				posY = posY + 1;
 				break;

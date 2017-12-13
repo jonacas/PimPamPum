@@ -260,19 +260,19 @@ public class Entrenamiento : MonoBehaviour {
 
 		switch (accionJ1) {
 		case GlobalData.MOVER_ARRIBA:
-                partidaEnCurso.j1.Move(playerMovements.MoveUp);
+                partidaEnCurso.j1.Move(playerActions.MoveUp);
                 debugJ1 = "MOVER_ARRIBA";
 			break;
         case GlobalData.MOVER_ABAJO:
-            partidaEnCurso.j1.Move(playerMovements.MoveDown);
+            partidaEnCurso.j1.Move(playerActions.MoveDown);
             debugJ1 = "MOVER_ABAJO";
             break;
         case GlobalData.MOVER_IZQ:
-            partidaEnCurso.j1.Move(playerMovements.MoveLeft);
+            partidaEnCurso.j1.Move(playerActions.MoveLeft);
             debugJ1 = "MOVER_IZQ";
             break;
         case GlobalData.MOVER_DER:
-            partidaEnCurso.j1.Move(playerMovements.MoveRight);
+            partidaEnCurso.j1.Move(playerActions.MoveRight);
             debugJ1 = "MOVER_DER";
             break;
         case GlobalData.DISPARO:
@@ -305,19 +305,19 @@ public class Entrenamiento : MonoBehaviour {
         switch (accionJ2)
         {
             case GlobalData.MOVER_ARRIBA:
-                partidaEnCurso.j2.Move(playerMovements.MoveUp);
+                partidaEnCurso.j2.Move(playerActions.MoveUp);
                 debugJ2 = "MOVER_ARRIBA";
                 break;
             case GlobalData.MOVER_ABAJO:
-                partidaEnCurso.j2.Move(playerMovements.MoveDown);
+                partidaEnCurso.j2.Move(playerActions.MoveDown);
                 debugJ2 = "MOVER_ABAJO";
                 break;
             case GlobalData.MOVER_IZQ:
-                partidaEnCurso.j2.Move(playerMovements.MoveLeft);
+                partidaEnCurso.j2.Move(playerActions.MoveLeft);
                 debugJ2 = "MOVER_IZQ";
                 break;
             case GlobalData.MOVER_DER:
-                partidaEnCurso.j2.Move(playerMovements.MoveRight);
+                partidaEnCurso.j2.Move(playerActions.MoveRight);
                 debugJ2 = "MOVER_DER";
                 break;
             case GlobalData.DISPARO:

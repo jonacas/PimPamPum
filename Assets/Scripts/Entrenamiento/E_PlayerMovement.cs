@@ -6,15 +6,13 @@ public enum playerActions
     Charge,
     Shoot,
     Move,
-    Guard
-};
-public enum playerMovements
-{
+    Guard,
     MoveUp,
     MoveRight,
     MoveLeft,
     MoveDown
 };
+
 
 
 public class E_PlayerMovement {
@@ -120,28 +118,28 @@ public class E_PlayerMovement {
 
     }*/
 
-	public bool Move(playerMovements movement) {
+	public bool Move(playerActions movement) {
 
 		legalMove = true;
 
 		switch (movement) 
 		{
-		case playerMovements.MoveDown:
+		case playerActions.MoveDown:
 			{
 				posY = posY + 1;	
 				break;
 			}
-		case playerMovements.MoveLeft:
+		case playerActions.MoveLeft:
 			{
 				posX = posX - 1;
 				break;
 			}
-		case playerMovements.MoveRight:
+		case playerActions.MoveRight:
 			{
 				posX = posX + 1;
 				break;
 			}
-		case playerMovements.MoveUp:
+		case playerActions.MoveUp:
 			{
 				posY = posY - 1;
 				break;
