@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour {
     
 	public float distanceToEnemy;
 
+	public bool IAPhase;
+
 	public int Life 
 	{
 		get {
@@ -48,6 +50,9 @@ public class PlayerMovement : MonoBehaviour {
             positions[2, i] = fila3[i];
 
         }
+
+		IAPhase = false;
+
 	}
 	
 	// Update is called once per frame
@@ -115,9 +120,11 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			canvasReference.UpdateTurnNumberCanvas (totalTurns);
 		}
-
+		IAPhase = true;
 		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
 
+		//AQUI FINALIZA EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
+		IAPhase = false;
 
 	}
 
@@ -167,7 +174,9 @@ public class PlayerMovement : MonoBehaviour {
 		if (legalMove) 
 		{
 			legalMove = true;
-			UpdateNumberOfTurns ();
+			if (!IAPhase) {
+				UpdateNumberOfTurns ();
+			}
 		}
 
 
@@ -194,7 +203,9 @@ public class PlayerMovement : MonoBehaviour {
 					rival.GetComponent<PlayerMovement>().Damage(1);
 					chargues = chargues - 1;
 				}
-				UpdateNumberOfTurns ();
+				if (!IAPhase) {
+					UpdateNumberOfTurns ();
+				}
 			}
 		
 		}
@@ -215,7 +226,9 @@ public class PlayerMovement : MonoBehaviour {
 			print ("Carga máxima conseguida");
 		}
 
-		UpdateNumberOfTurns ();
+		if (!IAPhase) {
+			UpdateNumberOfTurns ();
+		}
 
     }
     public void Damage(int damage) {
@@ -240,7 +253,9 @@ public class PlayerMovement : MonoBehaviour {
         {
             defense = true;
             shield = shield - 1;
-			UpdateNumberOfTurns ();
+			if (!IAPhase) {
+				UpdateNumberOfTurns ();
+			}
         }
     }
 
