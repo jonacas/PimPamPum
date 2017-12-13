@@ -11,7 +11,7 @@ public static class GestionMatrizQ {
 
 	//maxQ = mejor valor fila del estado al que movemos
 
-	public static GestionDeArchivos<MatrizQ<float[][]>> CrearMatrizQ(string nombre)
+	public static GestionDeArchivos<MatrizQ> CrearMatrizQ(string nombre)
 	{
 		float[][] matriz = new float[GlobalData.TOTAL_ESTADOS][];
 
@@ -24,9 +24,9 @@ public static class GestionMatrizQ {
 		}
 
 		//la ponemos en un soporte y creamos el archivo
-		MatrizQ<float[][]> soporteMatriz = new MatrizQ<float[][]>();
+		MatrizQ soporteMatriz = new MatrizQ();
 		soporteMatriz.Matriz = matriz;
-		GestionDeArchivos<MatrizQ<float[][]>> gestorMatriz = new GestionDeArchivos<MatrizQ<float[][]>>(nombre, soporteMatriz);
+		GestionDeArchivos<MatrizQ> gestorMatriz = new GestionDeArchivos<MatrizQ>(nombre, soporteMatriz);
 		return gestorMatriz;
 	}
 
@@ -42,7 +42,7 @@ public static class GestionMatrizQ {
     /// <param name="accionAnterior">Ultima acción realizada</param>
     /// <param name="estadoFuturo">Estado al que se llega</param>
     /// <param name="accionFutura">Acción que se va a realizar para llegar al nuevo estado</param>
-	public static int CalcularValorCasilla(MatrizQ<float[][]> mat, MatrizRecompensa matR, int[] estadoAnterior, int accionAnterior,int[] estadoFuturo, int accionFutura)
+	public static int CalcularValorCasilla(MatrizQ mat, MatrizRecompensa matR, int[] estadoAnterior, int accionAnterior,int[] estadoFuturo, int accionFutura)
 	{
         int filaOrigen = calcularFila(estadoAnterior);
 		int filaDestino = calcularFila (estadoFuturo);
@@ -55,7 +55,7 @@ public static class GestionMatrizQ {
 		return filaDestino;
 	}
 
-	private static float buscarMaximoEnFila(MatrizQ<float[][]> mat, int fila, int columnas)
+	private static float buscarMaximoEnFila(MatrizQ mat, int fila, int columnas)
 	{
 		float maximo = float.NegativeInfinity;
 		for(int i = 0; i < columnas; i++)

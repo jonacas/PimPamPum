@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatrizQ<T> {
+[System.Serializable()]
+public class MatrizQ {
 
-	public T Matriz;
+	public float[][] Matriz;
 
 }

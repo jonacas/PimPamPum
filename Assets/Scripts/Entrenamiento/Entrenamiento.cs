@@ -42,7 +42,7 @@ public class Entrenamiento : MonoBehaviour {
 
 	private int accionJ1, accionJ2, accionJ1Anterior;
 	Decisionador decisionador;
-	GestionDeArchivos<MatrizQ<float[][]>> matQ;
+	GestionDeArchivos<MatrizQ> matQ;
 	GestionDeArchivos<MatrizRecompensa> matR;
 	private Partida partidaEnCurso;
 	private int[] estadoActual, estadoAnterior;
@@ -52,6 +52,8 @@ public class Entrenamiento : MonoBehaviour {
     bool powerUpActivo1, powerUpActivo2;
 
     string debugJ1, debugJ2;
+
+    int totalPartidasARealizar, segmento;
 
 	// Use this for initialization
 	void Awake () {
@@ -63,14 +65,27 @@ public class Entrenamiento : MonoBehaviour {
 		estadoActual = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
 		estadoAnterior = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
         accionJ1 = 0;
-        StartCoroutine("Entrenar");
+
+        matQ = new GestionDeArchivos<MatrizQ>("MatrizQ9");
+        for (int i = 0; i < matQ.objeto.Matriz.Length; i++)
+        {
+            for (int j = 0; j < matQ.objeto.Matriz[0].Length; j++)
+            {
+                if (matQ.objeto.Matriz[i][j] != 0)
+                    print(matQ.objeto.Matriz[i][j]);
+            }
+        }
+
+        //StartCoroutine("Entrenar");
+        numPartidas = 100;
+        segmento = 10;
 	}
 
 	private void crearMatrices()
 	{
 		if (PERMISO_PARA_REESCRIBIR_MATRICES_1 && GlobalData.PERMISO_PARA_REESCRIBIR_MATRICES_2) {
             Debug.Log("MATRICES CREADAS");
-			matQ = GestionMatrizQ.CrearMatrizQ ("MatrizQ00");
+			matQ = GestionMatrizQ.CrearMatrizQ ("MatrizQ0");
 			matR = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz ();
 		} else {
 			Debug.LogError ("SE HA INTENTADO SOBREESCRIBIR LAS MATRICES SIN PERMISO");
@@ -80,7 +95,7 @@ public class Entrenamiento : MonoBehaviour {
 	IEnumerator Entrenar()
 	{
 		//la matriz Q se entrenara desde la perspectiva del j1
-		int partidasRealizadas = 0;
+		int partidasRealizadas = 1;
 		bool accionValida;
         partidaEnCurso = new Partida();
         partidaEnCurso.j1 = new E_PlayerMovement();
@@ -93,7 +108,7 @@ public class Entrenamiento : MonoBehaviour {
 
 		while (partidasRealizadas < numPartidas) {
 
-            if (!partidaEnCurso.victoria)
+            if ((!partidaEnCurso.victoria || !(partidaEnCurso.turnos > 80))  && !comprobarFinPartida())
             {
                 //, se guarda la accion, 0 para el primer turno
                  accionJ1Anterior = accionJ1;
@@ -144,7 +159,7 @@ public class Entrenamiento : MonoBehaviour {
                 //comprobamos si alguien ha cogio el escudo
                 comprobarRecogidaEscudo();
 
-                print("Valor R: " + matR.Objeto.GetValor(estadoActual) + "// Valor Q: " + matQ.Objeto.Matriz[GestionMatrizQ.calcularFila(estadoActual)][accionJ1]);
+                //print("Valor R: " + matR.Objeto.GetValor(estadoActual) + "// Valor Q: " + matQ.Objeto.Matriz[GestionMatrizQ.calcularFila(estadoActual)][accionJ1]);
                 if (partidaEnCurso.j1.life <= 0 || partidaEnCurso.j2.life <= 0)
                     partidaEnCurso.victoria = true;
                 
@@ -161,14 +176,26 @@ public class Entrenamiento : MonoBehaviour {
                 partidaEnCurso.j2.chargues = 3;
                 partidaEnCurso.j2.shield = 3;
                 turnoEscudo1 = turnoEscudo2 = 0;
+
+                if (partidasRealizadas % 10 == 0)
+                {
+                    new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 10), matQ.objeto);
+                }
+
                 yield return null;
             }
 
-            //if (partidaEnCurso.turnos % 60 == 0)
+            if (partidaEnCurso.turnos % 60 == 0)
                 yield return null;
 
 		}
+
 	}
+
+    private bool comprobarFinPartida()
+    {
+        return partidaEnCurso.j1.life == 0 || partidaEnCurso.j2.life == 0;
+    }
 
     private void comprobarRecogidaEscudo()
     {
@@ -362,7 +389,10 @@ public class Entrenamiento : MonoBehaviour {
 	{
 		estadoActual [GlobalData.FILA] = partidaEnCurso.j1.posY;
 		estadoActual [GlobalData.COLUMNA] = partidaEnCurso.j1.posX;
-		estadoActual [GlobalData.SALUD] = partidaEnCurso.j1.life;
+        if(partidaEnCurso.j1.life < 0)
+            estadoActual[GlobalData.SALUD] = 0;
+        else
+		    estadoActual [GlobalData.SALUD] = partidaEnCurso.j1.life;
 		estadoActual [GlobalData.CARGAS] = partidaEnCurso.j1.chargues;
 
         if(partidaEnCurso.j1.shield > 0)
@@ -379,7 +409,12 @@ public class Entrenamiento : MonoBehaviour {
 			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 1;
 		else
 			estadoActual [GlobalData.ENEMIGO_EN_RANGO] = 0;
-		estadoActual [GlobalData.SALUD_ENEMIGO] = partidaEnCurso.j2.life;
+
+
+        if (partidaEnCurso.j2.life < 0)
+            estadoActual[GlobalData.SALUD_ENEMIGO] = 0;
+        else
+            estadoActual[GlobalData.SALUD_ENEMIGO] = partidaEnCurso.j2.life;
 
 
         if (partidaEnCurso.j2.shield > 0)

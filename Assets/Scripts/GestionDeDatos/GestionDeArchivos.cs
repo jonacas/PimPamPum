@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class GestionDeArchivos<T> {
 
@@ -55,17 +56,22 @@ public class GestionDeArchivos<T> {
 
 	public void Guardar()
 	{
+        byte[] obj = ObjectToByteArray(objeto);
+
+        BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate));
+        bw.Write(obj);
+
        /* if (!File.Exists(path))
             File.Create(path);*/
-		string datosJSon = JsonUtility.ToJson (objeto);
-		File.WriteAllText (path, datosJSon);
+		/*string datosJSon = JsonUtility.ToJson (objeto);
+		File.WriteAllText (path, datosJSon);*/
 	}
 
 	private void cargar()
 	{
 		if (File.Exists (path)) {
-			string datosJson = File.ReadAllText (path);
-			objeto = JsonUtility.FromJson<T> (datosJson);
+            objeto = ByteArrayToObject(File.ReadAllBytes(path));
+			//objeto = JsonUtility.FromJson<T> (datosJson);
 		} else
 			throw new FileNotFoundException ();
 	}
@@ -79,4 +85,34 @@ public class GestionDeArchivos<T> {
 	{
 		return objeto;
 	}
+
+    public string GetCadena()
+    {
+        return JsonUtility.ToJson(objeto);
+    }
+
+    byte[] ObjectToByteArray(T obj)
+    {
+        if (obj == null)
+            return null;
+        BinaryFormatter bf = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream())
+        {
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
+        }
+    }
+
+
+    private T ByteArrayToObject(byte[] arrBytes)
+    {
+        MemoryStream memStream = new MemoryStream();
+        BinaryFormatter binForm = new BinaryFormatter();
+        memStream.Write(arrBytes, 0, arrBytes.Length);
+        //memStream.Seek(0, SeekOrigin.Begin);
+        memStream.Position = 0;
+        T obj = (T)binForm.Deserialize(memStream);
+
+        return obj;
+    }
 }
