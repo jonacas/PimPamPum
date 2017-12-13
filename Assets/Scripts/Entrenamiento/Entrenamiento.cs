@@ -41,7 +41,7 @@ public class Entrenamiento : MonoBehaviour {
 	public int matricesTotales;
 
 	private playerActions accionJ1, accionJ2, accionJ1Anterior;
-	Decisionador decisionador;
+	Decisionador decisionador1, decisionador2;
 	GestionDeArchivos<MatrizQ> matQ;
 	GestionDeArchivos<MatrizRecompensa> matR;
 	private Partida partidaEnCurso;
@@ -54,13 +54,15 @@ public class Entrenamiento : MonoBehaviour {
     string debugJ1, debugJ2;
 
     int totalPartidasARealizar, segmento;
+	int victorias1, victorias2;
 
 	// Use this for initialization
 	void Awake () {
 
         
 		crearMatrices ();
-		decisionador = new Decisionador (ModoDecisionador.AlAzar, matQ.objeto);
+		decisionador1 = new Decisionador (ModoDecisionador.Manco, matQ.objeto);
+		decisionador2 = new Decisionador (ModoDecisionador.AlAzar, matQ.objeto);
 
 		estadoActual = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
 		estadoAnterior = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
@@ -88,6 +90,8 @@ public class Entrenamiento : MonoBehaviour {
 			matQ = GestionMatrizQ.CrearMatrizQ ("MatrizQ0");
 			matR = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz ();
 		} else {
+			matQ = new GestionDeArchivos<MatrizQ> ("MatrizQ1");//GestionMatrizQ.CrearMatrizQ ("MatrizQ0");
+			matR = RellenadoDeMatrizRecompensa.CrearRellenarYguardarMatriz ();
 			Debug.LogError ("SE HA INTENTADO SOBREESCRIBIR LAS MATRICES SIN PERMISO");
 		}
 	}
@@ -98,6 +102,7 @@ public class Entrenamiento : MonoBehaviour {
 		int partidasRealizadas = 1;
 		bool accionValida;
         partidaEnCurso = new Partida();
+		partidaEnCurso.turnos = 0;
         partidaEnCurso.j1 = new E_PlayerMovement();
         partidaEnCurso.j1.chargues = 3;
         partidaEnCurso.j1.shield = 3;
@@ -128,7 +133,7 @@ public class Entrenamiento : MonoBehaviour {
                     accionValida = false;
                     while (!accionValida)
                     {
-						accionJ1 = decisionador.decidirMovimiento(estadoActual);
+						accionJ1 = decisionador1.decidirMovimiento(estadoActual);
                         accionValida = partidaEnCurso.j1.CheckLegalMove(accionJ1);
                     }
                 }
@@ -138,7 +143,7 @@ public class Entrenamiento : MonoBehaviour {
                     accionValida = false;
                     while (!accionValida)
                     {
-						accionJ2 = decisionador.decidirMovimiento(estadoActual);
+						accionJ2 = decisionador2.decidirMovimiento(estadoActual);
                         accionValida = partidaEnCurso.j2.CheckLegalMove(accionJ2);
                     }
                 }
@@ -154,7 +159,7 @@ public class Entrenamiento : MonoBehaviour {
                 //se obtiene el nuevo estado tras ejecutar las acicones
                 SetEstadoActual();
                 //se actualiza la matriz q
-				GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, playerActionsToInt(accionJ1Anterior), estadoActual, playerActionsToInt(accionJ1));
+				//GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, playerActionsToInt(accionJ1Anterior), estadoActual, playerActionsToInt(accionJ1));
 
                 //comprobamos si alguien ha cogio el escudo
                 comprobarRecogidaEscudo();
@@ -166,7 +171,7 @@ public class Entrenamiento : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Partida " + partidaEnCurso.id + " finalizada");
+				Debug.Log("Partida " + partidaEnCurso.id + " finalizada en estos turnos: " + partidaEnCurso.turnos);
                 partidaEnCurso = new Partida();
                 partidaEnCurso.id = ++partidasRealizadas;
                 partidaEnCurso.j1 = new E_PlayerMovement();
@@ -176,17 +181,19 @@ public class Entrenamiento : MonoBehaviour {
                 partidaEnCurso.j2.chargues = 3;
                 partidaEnCurso.j2.shield = 3;
                 turnoEscudo1 = turnoEscudo2 = 0;
+				partidaEnCurso.turnos = 0;
 
-                if (partidasRealizadas % 1000 == 0)
+                /*if (partidasRealizadas % 1000 == 0)
                 {
                     new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 1000), matQ.objeto);
-                }
+                }*/
 
                 yield return null;
             }
 
-            if (partidaEnCurso.turnos % 60 == 0)
-                yield return null;
+			if (partidaEnCurso.turnos % 60 == 0) {
+				yield return null;
+			}
 
 		}
 
@@ -194,7 +201,18 @@ public class Entrenamiento : MonoBehaviour {
 
     private bool comprobarFinPartida()
     {
-        return partidaEnCurso.j1.life == 0 || partidaEnCurso.j2.life == 0;
+		if (partidaEnCurso.j1.life == 0 || partidaEnCurso.j2.life == 0) {
+			if (partidaEnCurso.j1.life == 0)
+				victorias2++;
+			if (partidaEnCurso.j2.life == 0)
+				victorias1++;
+
+			print ("J1: " + victorias1 + "// J2: " + victorias2);
+
+			return true;
+		}
+
+		return false;
     }
 
     private void comprobarRecogidaEscudo()

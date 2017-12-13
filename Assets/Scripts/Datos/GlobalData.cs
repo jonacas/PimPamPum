@@ -67,4 +67,6 @@ public static class GlobalData{
 
 
 	public const bool PERMISO_PARA_REESCRIBIR_MATRICES_2 = false;
+
+	public static int Dificultad = 5;
 }
