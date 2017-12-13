@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour {
     void Start () {
         life = 3;
         shield = 3;
-        chargues = 1;
+        chargues = 0;
         for (int i = 0; i < fila1.Length; i++) {
 
             positions[0, i] = fila1[i];
@@ -148,13 +148,13 @@ public class PlayerMovement : MonoBehaviour {
        // posY = posY + (int)-(Input.GetAxisRaw(vertical));
 		legalMove = true;
 		if (posX < 0) 
-		{ posX = 0; legalMove = false; RandomCalculation (); }
+		{ posX = 0; legalMove = false; /*RandomCalculation ()*/ }
 		else if (posX > 2) 
-		{ posX = 2; legalMove = false; RandomCalculation (); }
+		{ posX = 2; legalMove = false; /*RandomCalculation ()*/ }
 		if (posY < 0)
-		{ posY = 0; legalMove = false; RandomCalculation ();}
-		else if (posY > 2)
-		{ posY = 2; legalMove = false; RandomCalculation (); }
+		{ posY = 0; legalMove = false;/*RandomCalculation ()*/}
+        else if (posY > 2)
+		{ posY = 2; legalMove = false; /*RandomCalculation ()*/ }
         transform.position = positions[posX, posY].position;
 		if (legalMove) 
 		{
@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour {
     public void Attack() {
 
 		if (chargues <= 0) {
-			RandomCalculation ();
+			//RandomCalculation ();
 		} 
 		else
 		{
