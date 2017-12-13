@@ -97,11 +97,7 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		else
 		{
-			if (shield > 0) {	
-				defense = true;
-				shield = shield - 1;
-			}
-			print ("Escudos: " + shield);
+            Defense();
 
 		}
 
@@ -114,7 +110,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 }
 
-	void Move(playerActions movement) {
+	public void Move(playerActions movement) {
 
 		switch (movement) 
 		{
@@ -156,7 +152,7 @@ public class PlayerMovement : MonoBehaviour {
 			legalMove = true;
 		}
     }
-    void Attack() {
+    public void Attack() {
 
 		if (chargues <= 0) {
 			RandomCalculation ();
@@ -175,7 +171,7 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    void Rechargue() {
+    public void Rechargue() {
 
 
         if (chargues < 5) {
@@ -198,6 +194,16 @@ public class PlayerMovement : MonoBehaviour {
 
         }
        
+    }
+
+    public void Defense() {
+
+        if (shield > 0)
+        {
+            defense = true;
+            shield = shield - 1;
+        }
+
     }
 
 }
