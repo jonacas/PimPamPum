@@ -891,10 +891,15 @@ MonoBehaviour:
   - {fileID: 4048344967375824}
   - {fileID: 4554177085425378}
   - {fileID: 4405152287470938}
+  posX: 1
+  posY: 1
+  shield: 0
+  chargues: 0
   myTurn: 1
   legalMove: 0
   canvasReference: {fileID: 0}
   totalTurns: 0
+  distanceToEnemy: 0
 --- !u!114 &114130109809330998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -906,9 +911,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac55aeae87a0ef488c47a1e5d621c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerReferences:
-  - {fileID: 1543894210431394}
-  - {fileID: 1418745215988956}
+  humanoReferencia: {fileID: 114426428508127120}
+  IAReferencia: {fileID: 114002633378557196}
+  modeladoEscudo: {fileID: 0}
 --- !u!114 &114426428508127120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -935,7 +940,12 @@ MonoBehaviour:
   - {fileID: 4068911281249270}
   - {fileID: 4061122354198114}
   - {fileID: 4543172161038836}
+  posX: 1
+  posY: 1
+  shield: 0
+  chargues: 0
   myTurn: 1
   legalMove: 0
   canvasReference: {fileID: 0}
   totalTurns: 0
+  distanceToEnemy: 0

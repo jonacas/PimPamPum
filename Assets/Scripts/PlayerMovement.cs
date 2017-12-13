@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 	public bool myTurn = true;
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
 	public CanvasManager canvasReference;
+	public Slider lifeSlider;
 	public int totalTurns = 0;
     
 	public float distanceToEnemy;
@@ -201,9 +202,9 @@ public class PlayerMovement : MonoBehaviour {
         {
             life = life - damage;
             print("Vida " + life);
-			if (canvasReference != null) 
+			if (canvasReference != null && lifeSlider != null) 
 			{
-				canvasReference.colorPlayerLifesCanvas (life);
+				canvasReference.colorPlayerLifesCanvas (life, lifeSlider);
 			}
 
         }

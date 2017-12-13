@@ -10,7 +10,7 @@ public class CanvasManager : MonoBehaviour {
 
 	public Text numberOfTurns;
 	public Slider playerLifesCanvas;
-
+	public Slider IALifesCanvas;
 
 
 	// Use this for initialization
@@ -24,31 +24,31 @@ public class CanvasManager : MonoBehaviour {
 		
 	}
 
-	public void colorPlayerLifesCanvas(int livesMatter)
+	public void colorPlayerLifesCanvas(int livesMatter, Slider lifeSlider)
 	{
 		switch (livesMatter) 
 		{
 		case 3: 
 			{
-				playerLifesCanvas.fillRect.gameObject.GetComponent<Image> ().color = Color.green;
-				playerLifesCanvas.value = 3;
+				lifeSlider.fillRect.gameObject.GetComponent<Image> ().color = Color.green;
+				lifeSlider.value = 3;
 				break;
 			}
 		case 2:
 			{
-				playerLifesCanvas.fillRect.gameObject.GetComponent<Image> ().color = Color.yellow;
-				playerLifesCanvas.value = 2;
+				lifeSlider.fillRect.gameObject.GetComponent<Image> ().color = Color.yellow;
+				lifeSlider.value = 2;
 				break;
 			}
 		case 1:
 			{
-				playerLifesCanvas.fillRect.gameObject.GetComponent<Image> ().color = Color.red;
-				playerLifesCanvas.value = 1;
+				lifeSlider.fillRect.gameObject.GetComponent<Image> ().color = Color.red;
+				lifeSlider.value = 1;
 				break;
 			}
 		case 0:
 			{
-				playerLifesCanvas.value = 0;
+				lifeSlider.value = 0;
 				break;
 			}
 		}
