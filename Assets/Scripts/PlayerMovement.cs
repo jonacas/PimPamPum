@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (myTurn) {
-			RandomCalculation ();
+			//RandomCalculation ();
 			}
 				timer = timer + Time.deltaTime;			
 
