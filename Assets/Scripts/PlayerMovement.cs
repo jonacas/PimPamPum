@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-	void RandomCalculation()
+	public void RandomCalculation()
 	{
 	if (timer >= 1.0f) 
 	{
@@ -70,19 +70,19 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			if (random < 0.1f) 
 			{
-				Move (playerActions.MoveUp);
+                Move(1);//playerActions.MoveUp);
 			} 
 			else if (random < 0.2f) 
 			{
-				Move (playerActions.MoveLeft);
+                Move(2); //playerActions.MoveLeft);
 			}
 			else if (random < 0.3f) 
 			{
-				Move (playerActions.MoveRight);
+                Move(3); //(playerActions.MoveRight);
 			} 
 			else
 			{
-				Move (playerActions.MoveDown);
+                Move(4); //(playerActions.MoveDown);
 			}
 
 		}
@@ -112,30 +112,36 @@ public class PlayerMovement : MonoBehaviour {
 	}
 }
 
-	public void Move(playerActions movement) {
+	public void Move(int move) {
 
-		switch (movement) 
+
+		switch ( move /*movement*/) 
 		{
-		case playerActions.MoveDown:
+		case 1:    //playerActions.MoveDown:
 			{
 				posY = posY - 1;	
 				break;
 			}
-		case playerActions.MoveLeft:
+        case 2:      //playerActions.MoveLeft:
 			{
 				posX = posX - 1;
 				break;
 			}
-		case playerActions.MoveRight:
+        case 3:        //playerActions.MoveRight:
 			{
 				posX = posX + 1;
 				break;
 			}
-		case playerActions.MoveUp:
+        case 4: //playerActions.MoveUp:
 			{
 				posY = posY + 1;
 				break;
 			}
+        default:
+            {
+                print("error");
+                break;
+            }
 		}
        // posX = posX + (int)(Input.GetAxisRaw(horizontal));
        // posY = posY + (int)-(Input.GetAxisRaw(vertical));
