@@ -35,12 +35,12 @@ public class Entrenamiento : MonoBehaviour {
         }
 	}
 
-	private const bool PERMISO_PARA_REESCRIBIR_MATRICES_1 = true;
+	private const bool PERMISO_PARA_REESCRIBIR_MATRICES_1 = false;
 
 	public int numPartidas;
 	public int matricesTotales;
 
-	private int accionJ1, accionJ2, accionJ1Anterior;
+	private playerActions accionJ1, accionJ2, accionJ1Anterior;
 	Decisionador decisionador;
 	GestionDeArchivos<MatrizQ> matQ;
 	GestionDeArchivos<MatrizRecompensa> matR;
@@ -59,8 +59,8 @@ public class Entrenamiento : MonoBehaviour {
 	void Awake () {
 
         
-		decisionador = new Decisionador ();
 		crearMatrices ();
+		decisionador = new Decisionador (ModoDecisionador.AlAzar, matQ.objeto);
 
 		estadoActual = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
 		estadoAnterior = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
@@ -128,7 +128,7 @@ public class Entrenamiento : MonoBehaviour {
                     accionValida = false;
                     while (!accionValida)
                     {
-                        accionJ1 = decisionador.decidirMovimiento();
+						accionJ1 = decisionador.decidirMovimiento(estadoActual);
                         accionValida = partidaEnCurso.j1.CheckLegalMove(accionJ1);
                     }
                 }
@@ -138,7 +138,7 @@ public class Entrenamiento : MonoBehaviour {
                     accionValida = false;
                     while (!accionValida)
                     {
-                        accionJ2 = decisionador.decidirMovimiento();
+						accionJ2 = decisionador.decidirMovimiento(estadoActual);
                         accionValida = partidaEnCurso.j2.CheckLegalMove(accionJ2);
                     }
                 }
@@ -154,7 +154,7 @@ public class Entrenamiento : MonoBehaviour {
                 //se obtiene el nuevo estado tras ejecutar las acicones
                 SetEstadoActual();
                 //se actualiza la matriz q
-                GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, accionJ1Anterior, estadoActual, accionJ1);
+				GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, playerActionsToInt(accionJ1Anterior), estadoActual, playerActionsToInt(accionJ1));
 
                 //comprobamos si alguien ha cogio el escudo
                 comprobarRecogidaEscudo();
@@ -246,11 +246,11 @@ public class Entrenamiento : MonoBehaviour {
         if (partidaEnCurso.j1.chargues >= 5)
         {
             partidaEnCurso.j1Bazoonga = true;
-            accionJ1 = GlobalData.BAZOONGA;
+			accionJ1 = intToPlayerAction (GlobalData.BAZOONGA);
         }
         if (partidaEnCurso.j2.chargues >= 5)
             partidaEnCurso.j2Bazoonga = true;
-        accionJ2 = GlobalData.BAZOONGA;
+		accionJ2 = intToPlayerAction(GlobalData.BAZOONGA);
     }
 
 	private void ejecutarAcciones()
@@ -258,7 +258,7 @@ public class Entrenamiento : MonoBehaviour {
         debugJ1 = "";
         debugJ2 = "";
 
-		switch (accionJ1) {
+		switch (playerActionsToInt (accionJ1)) {
 		case GlobalData.MOVER_ARRIBA:
                 partidaEnCurso.j1.Move(playerActions.MoveUp);
                 debugJ1 = "MOVER_ARRIBA";
@@ -302,7 +302,7 @@ public class Entrenamiento : MonoBehaviour {
             break;
 		}
 
-        switch (accionJ2)
+		switch (playerActionsToInt(accionJ2))
         {
             case GlobalData.MOVER_ARRIBA:
                 partidaEnCurso.j2.Move(playerActions.MoveUp);
@@ -446,4 +446,64 @@ public class Entrenamiento : MonoBehaviour {
 			return false;
 	}
 
+	public playerActions intToPlayerAction(int acc)
+	{
+		playerActions accion;
+		switch (acc) {
+		case GlobalData.MOVER_ARRIBA:
+			accion = playerActions.MoveUp;
+			break;
+		case GlobalData.MOVER_ABAJO:
+			accion = playerActions.MoveDown;
+			break;
+		case GlobalData.MOVER_IZQ:
+			accion = playerActions.MoveLeft;
+			break;
+		case GlobalData.MOVER_DER:
+			accion = playerActions.MoveRight;
+			break;
+		case GlobalData.DISPARO:
+			accion = playerActions.Shoot;
+			break;
+		case GlobalData.ESCUDO_ACCION:
+			accion = playerActions.Guard;
+			break;
+		case GlobalData.CARGAR_DISPARO:
+		default:
+			accion = playerActions.Charge;
+			break;
+		}
+		return accion;
+	}
+
+
+	public int playerActionsToInt(playerActions acc)
+	{
+		int accion;
+		switch (acc) {
+		case playerActions.MoveUp:
+			accion = GlobalData.MOVER_ARRIBA;
+			break;
+		case playerActions.MoveDown:
+			accion = GlobalData.MOVER_ABAJO;
+			break;
+		case playerActions.MoveLeft:
+			accion = GlobalData.MOVER_IZQ;
+			break;
+		case playerActions.MoveRight:
+			accion = GlobalData.MOVER_DER;
+			break;
+		case playerActions.Shoot:
+			accion = GlobalData.DISPARO;
+			break;
+		case playerActions.Guard:
+			accion = GlobalData.ESCUDO_ACCION ;
+			break;
+		case playerActions.Charge:
+		default:
+			accion = GlobalData.CARGAR_DISPARO;
+			break;
+		}
+		return accion;
+	}
 }

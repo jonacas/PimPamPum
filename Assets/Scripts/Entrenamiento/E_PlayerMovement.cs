@@ -155,35 +155,35 @@ public class E_PlayerMovement {
         //transform.position = positions[posX, posY].position;
     }
 
-	public bool CheckLegalMove(int movimiento)
+	public bool CheckLegalMove(playerActions movimiento)
 	{
 		switch (movimiento) {
-			case GlobalData.MOVER_ARRIBA:
+		case playerActions.MoveUp:
 				if (posY == 0)
 					return false;
                 break;
 
-		case GlobalData.MOVER_ABAJO:
+		case playerActions.MoveDown:
 			if (posY == 2)
 				return false;
             break;
 
-		case GlobalData.MOVER_IZQ:
+		case playerActions.MoveLeft:
 			if (posX == 0)
 				return false;
             break;
 
-		case GlobalData.MOVER_DER:
+		case playerActions.MoveRight:
 			if (posX == 2)
 				return false;
             break;
 
-		case GlobalData.DISPARO:
+		case playerActions.Shoot:
 			if (chargues <= 0)
 				return false;
             break;
 
-		case GlobalData.ESCUDO_ACCION:
+		case playerActions.Guard:
 			if (shield <= 0)
 				return false;
             break;
