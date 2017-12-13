@@ -11,7 +11,7 @@ public class RellenadoDeMatrizRecompensa
     /// Devuelve una instancia de GestionDeARchivos con la matriz.
     /// </summary>
     /// <param name="nombreArchivo"></param>
-	public static GestionDeArchivos<MatrizRecompensa> CrearRellenarYguardarMatriz(string nombreArchivo = "MatrizRecompensas.cagonTo")
+	public static GestionDeArchivos<MatrizRecompensa> CrearRellenarYguardarMatriz(string nombreArchivo = "MatrizRecompensas")
 	{
 		int[][][][][][][][][][] matriz /*= new int[GlobalData.ALTO_TABLERO][GlobalData.ANCHO_TABLERO][GlobalData.VALORES_SALUD]
 			[GlobalData.VALORES_CARGAS][GlobalData.VALORES_POWER_UP][GlobalData.VALORES_DISTANCA_ENEMIGO][GlobalData.VALORES_SALUD_ENEMIGO]*/;

@@ -66,7 +66,7 @@ public class Entrenamiento : MonoBehaviour {
 		estadoAnterior = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
         accionJ1 = 0;
 
-        matQ = new GestionDeArchivos<MatrizQ>("MatrizQ9");
+        /*matQ = new GestionDeArchivos<MatrizQ>("MatrizQ9");
         for (int i = 0; i < matQ.objeto.Matriz.Length; i++)
         {
             for (int j = 0; j < matQ.objeto.Matriz[0].Length; j++)
@@ -74,10 +74,10 @@ public class Entrenamiento : MonoBehaviour {
                 if (matQ.objeto.Matriz[i][j] != 0)
                     print(matQ.objeto.Matriz[i][j]);
             }
-        }
+        }*/
 
-        //StartCoroutine("Entrenar");
-        numPartidas = 100;
+        StartCoroutine("Entrenar");
+        numPartidas = 10000;
         segmento = 10;
 	}
 
@@ -150,7 +150,7 @@ public class Entrenamiento : MonoBehaviour {
                 ejecutarAcciones();
 
                 partidaEnCurso.turnos++;
-                Debug.Log("Turno " + partidaEnCurso.turnos + " J1 " + debugJ1 + " // J2 " + debugJ2);
+                //Debug.Log("Turno " + partidaEnCurso.turnos + " J1 " + debugJ1 + " // J2 " + debugJ2);
                 //se obtiene el nuevo estado tras ejecutar las acicones
                 SetEstadoActual();
                 //se actualiza la matriz q
@@ -177,7 +177,7 @@ public class Entrenamiento : MonoBehaviour {
                 partidaEnCurso.j2.shield = 3;
                 turnoEscudo1 = turnoEscudo2 = 0;
 
-                if (partidasRealizadas % 10 == 0)
+                if (partidasRealizadas % 1000 == 0)
                 {
                     new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 10), matQ.objeto);
                 }
@@ -203,7 +203,7 @@ public class Entrenamiento : MonoBehaviour {
         {
             if (partidaEnCurso.j1.posX == 1 && partidaEnCurso.j1.posY == 1)
             {
-                print("J1 coge escudo");
+                //print("J1 coge escudo");
                 partidaEnCurso.j1.shield++;
                 powerUpActivo1 = false;
                 turnoEscudo1 = partidaEnCurso.turnos;
@@ -214,7 +214,7 @@ public class Entrenamiento : MonoBehaviour {
         {
             if (partidaEnCurso.j2.posX == 1 && partidaEnCurso.j2.posY == 1)
             {
-                print("J2 coge escudo");
+                //print("J2 coge escudo");
                 partidaEnCurso.j2.shield++;
                 powerUpActivo2 = false;
                 turnoEscudo2 = partidaEnCurso.turnos;
@@ -425,9 +425,9 @@ public class Entrenamiento : MonoBehaviour {
 
 		estadoActual [GlobalData.CARGAS_ENEMIGO] = partidaEnCurso.j2.chargues;
 
-        print("Estado j1: fila " + estadoActual[GlobalData.FILA] + " //columna" + estadoActual[GlobalData.COLUMNA] + " //salud " + estadoActual[GlobalData.SALUD] + " // cargas " + estadoActual[GlobalData.CARGAS] + " //escudos " + partidaEnCurso.j1.shield);
+        /*print("Estado j1: fila " + estadoActual[GlobalData.FILA] + " //columna" + estadoActual[GlobalData.COLUMNA] + " //salud " + estadoActual[GlobalData.SALUD] + " // cargas " + estadoActual[GlobalData.CARGAS] + " //escudos " + partidaEnCurso.j1.shield);
         print("A tiro " + estadoActual[GlobalData.ENEMIGO_EN_RANGO]);
-        print("Estado j2:fila " + partidaEnCurso.j2.posY + " //columna" + partidaEnCurso.j2.posX + " //salud " + estadoActual[GlobalData.SALUD_ENEMIGO] + " // cargas " + estadoActual[GlobalData.CARGAS_ENEMIGO] + " //escudos " + partidaEnCurso.j2.shield);
+        print("Estado j2:fila " + partidaEnCurso.j2.posY + " //columna" + partidaEnCurso.j2.posX + " //salud " + estadoActual[GlobalData.SALUD_ENEMIGO] + " // cargas " + estadoActual[GlobalData.CARGAS_ENEMIGO] + " //escudos " + partidaEnCurso.j2.shield);*/
 	}
 
 	public bool comprobarSiEstanAlAlcance()
