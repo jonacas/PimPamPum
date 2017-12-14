@@ -10,7 +10,8 @@ public enum playerActions
     MoveUp,
     MoveRight,
     MoveLeft,
-    MoveDown
+    MoveDown,
+    Bazoonga
 };
 
 

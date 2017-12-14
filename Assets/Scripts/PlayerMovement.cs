@@ -114,13 +114,9 @@ public class PlayerMovement : MonoBehaviour {
         chargues = chargues + 1;
        
     }
-    public void Damage(int damage) {
+    public void Damage(int damage = 1) {
 		
-        if (!defense)
-        {
-            life = life - damage;
-            
-        }
+        life = life - damage;
 		if (canvasReference != null && lifeSlider != null) 
 		{
 			canvasReference.colorPlayerLifesCanvas (life, lifeSlider);
@@ -129,6 +125,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Defense() {
 
+        defense = true;
         shield = shield - 1;
     }
 
@@ -138,6 +135,7 @@ public class PlayerMovement : MonoBehaviour {
 		{
 		case playerActions.Charge:
 			{
+                    defense = false;
                     Rechargue();break;
 			}
 		case playerActions.Guard:
@@ -146,24 +144,34 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		case playerActions.Shoot:
 			{
+                    defense = false;
                     Attack();break;
 			}
 		case playerActions.MoveDown:
 			{
+                    defense = false;
                     Move(1);break;
 			}
 		case playerActions.MoveLeft:
 			{
+                    defense = false;
                     Move(2); break;
-                }
+            }
 		case playerActions.MoveUp:
 			{
+                    defense = false;
                     Move(4); break;
                 }
 		case playerActions.MoveRight:
 			{
+                    defense = false;
                     Move(3); break;
-                }
+            }
+        case playerActions.Bazoonga:
+            {
+                    defense = false;
+                    Bazoonga(); break;
+            }
 		}
 	}
 
@@ -195,6 +203,10 @@ public class PlayerMovement : MonoBehaviour {
                 if (shield >= 0)
                     return false;
                 break;
+            case playerActions.Bazoonga:
+                if (chargues < 5) {
+                    return false;
+                }break;
         }
 
         return true;
