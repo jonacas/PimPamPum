@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	
     // Use this for initialization
-    void Start () {
+    void Awake () {
 
         life = 3;
         shield = 3;
@@ -100,9 +100,9 @@ public class PlayerMovement : MonoBehaviour {
     void Bazoonga() {
 
         chargues = 0;
-
-
     }
+
+
     void Attack() {
 
         
