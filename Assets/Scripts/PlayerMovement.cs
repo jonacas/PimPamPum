@@ -71,23 +71,27 @@ public class PlayerMovement : MonoBehaviour {
 		{
 		case 1:    //playerActions.MoveDown:
 			{
-				posY = posY + 1;	
-				break;
+				posY = posY + 1;
+                    transform.position = positions[posX, posY].position;
+                    break;
 			}
         case 2:      //playerActions.MoveLeft:
 			{
 				posX = posX - 1;
-				break;
+                    transform.position = positions[posX, posY].position;
+                    break;
 			}
         case 3:        //playerActions.MoveRight:
 			{
 				posX = posX + 1;
-				break;
+                    transform.position = positions[posX, posY].position;
+                    break;
 			}
         case 4: //playerActions.MoveUp:
 			{
 				posY = posY - 1; //Cambiado para tenerlo en cuenta, va en base a la matriz
-				break;
+                    transform.position = positions[posX, posY].position;
+                    break;
 			}
         default:
             {
