@@ -35,7 +35,7 @@ public class Entrenamiento : MonoBehaviour {
         }
 	}
 
-	private const bool PERMISO_PARA_REESCRIBIR_MATRICES_1 = false;
+	private const bool PERMISO_PARA_REESCRIBIR_MATRICES_1 = true;
 
 	public int numPartidas;
 	public int matricesTotales;
@@ -61,7 +61,7 @@ public class Entrenamiento : MonoBehaviour {
 
         
 		crearMatrices ();
-		decisionador1 = new Decisionador (ModoDecisionador.Manco, matQ.objeto);
+		decisionador1 = new Decisionador (ModoDecisionador.AlAzar, matQ.objeto);
 		decisionador2 = new Decisionador (ModoDecisionador.AlAzar, matQ.objeto);
 
 		estadoActual = new int[GlobalData.TOTAL_INDICES_ARRAY_ESTADO];
@@ -159,7 +159,7 @@ public class Entrenamiento : MonoBehaviour {
                 //se obtiene el nuevo estado tras ejecutar las acicones
                 SetEstadoActual();
                 //se actualiza la matriz q
-				//GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, playerActionsToInt(accionJ1Anterior), estadoActual, playerActionsToInt(accionJ1));
+				GestionMatrizQ.CalcularValorCasilla(matQ.Objeto, matR.Objeto, estadoAnterior, playerActionsToInt(accionJ1Anterior), estadoActual, playerActionsToInt(accionJ1));
 
                 //comprobamos si alguien ha cogio el escudo
                 comprobarRecogidaEscudo();
@@ -183,10 +183,15 @@ public class Entrenamiento : MonoBehaviour {
                 turnoEscudo1 = turnoEscudo2 = 0;
 				partidaEnCurso.turnos = 0;
 
-                /*if (partidasRealizadas % 1000 == 0)
+                if (partidasRealizadas % 1000 == 0)
                 {
                     new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 1000), matQ.objeto);
-                }*/
+
+                    if(partidasRealizadas > 4000)
+                        decisionador1.SetMetodo(ModoDecisionador.Normal);
+                    if(partidasRealizadas > 7000)
+                        decisionador1.SetMetodo(ModoDecisionador.ProPlayer);
+                }
 
                 yield return null;
             }

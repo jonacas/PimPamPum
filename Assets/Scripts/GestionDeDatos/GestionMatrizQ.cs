@@ -47,7 +47,7 @@ public static class GestionMatrizQ {
         int filaOrigen = calcularFila(estadoAnterior);
 		int filaDestino = calcularFila (estadoFuturo);
 
-        mat.Matriz[filaDestino][accionFutura] = mat.Matriz[filaOrigen][accionAnterior] + ratioAprendizaje *
+        mat.Matriz[filaOrigen][accionAnterior] = mat.Matriz[filaOrigen][accionAnterior] + ratioAprendizaje *
 		(matR.GetValor(estadoFuturo) + factorDescuento * buscarMaximoEnFila (mat, filaDestino, GlobalData.TOTAL_ACCIONES)
 				- mat.Matriz [filaOrigen][accionAnterior]);
 

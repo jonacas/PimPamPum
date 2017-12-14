@@ -35,6 +35,10 @@ public class PlayerMovement : MonoBehaviour {
 	public float targetTimeBetweenTurns = 3.0f;
 	public Button[] ActionButtons;
 
+    private Decisionador decisionadorIA;
+    private GestionDeArchivos<MatrizQ> matQ;
+    private playerActions accionIA;
+
 
 	public int Life 
 	{
@@ -46,6 +50,23 @@ public class PlayerMovement : MonoBehaviour {
 	
     // Use this for initialization
     void Start () {
+
+        matQ = new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(GlobalData.Dificultad));
+
+        if (GlobalData.Dificultad >= 7)
+        {
+            decisionadorIA = new Decisionador(ModoDecisionador.ProPlayer, matQ.objeto);
+        }
+
+        else if (GlobalData.Dificultad >= 4)
+        {
+            decisionadorIA = new Decisionador(ModoDecisionador.Normal, matQ.objeto);
+        }
+        else
+        {
+            decisionadorIA = new Decisionador(ModoDecisionador.Manco, matQ.objeto);
+        }
+
         life = 3;
         shield = 3;
         chargues = 0;
@@ -161,19 +182,22 @@ public class PlayerMovement : MonoBehaviour {
 		IAPhase = true;
 		IAMovementAllowed = false;
 		//AÑADIR AQUI EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
-		/*
-		while (!rival.GetComponent<PlayerMovement>().IAMovmentAllowed) 
-		{
-			
-		}
-		*/
-		//AQUI FINALIZA EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
+
+        /*while (!rival.GetComponent<PlayerMovement>().IAMovmentAllowed) 
+        {
+            accionIA = decisionadorIA.decidirMovimiento(GetEstado());
+        }*/
+
+
+
+        //AQUI FINALIZA EL LANZAMIENTO DEL MOVIMIENTO DE LA IA
 		IAPhase = false;
 
 	}
 
 	public void Move(int move) {
 
+        //ARRIBA Y ABAJO ESTAN AL REVES!!!!
 
 		switch ( move /*movement*/) 
 		{
@@ -360,5 +384,38 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 	}
+
+    public bool CheckLegalMove(playerActions move)
+    {
+        switch (move)
+        {
+            case playerActions.MoveUp:
+                if(posY <= 0)
+                    return false;
+                break;
+            case playerActions.MoveDown:
+                if (posY >= 2)
+                    return false;
+                break;
+            case playerActions.MoveLeft:
+                if (posX <= 0)
+                    return false;
+                break;
+            case playerActions.MoveRight:
+                if (posX >= 2)
+                    return false;
+                break;
+            case playerActions.Shoot:
+                if (chargues <= 0)
+                    return false;
+                break;
+            case playerActions.Guard:
+                if (shield >= 0)
+                    return false;
+                break;
+        }
+
+        return true;
+    }
 
 }

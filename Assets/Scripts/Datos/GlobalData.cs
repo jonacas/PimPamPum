@@ -66,7 +66,7 @@ public static class GlobalData{
 	#endregion
 
 
-	public const bool PERMISO_PARA_REESCRIBIR_MATRICES_2 = false;
+	public const bool PERMISO_PARA_REESCRIBIR_MATRICES_2 = true;
 
 	public static int Dificultad = 5;
 }
