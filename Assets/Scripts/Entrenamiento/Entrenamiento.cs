@@ -79,8 +79,11 @@ public class Entrenamiento : MonoBehaviour {
         }*/
 
         StartCoroutine("Entrenar");
-        numPartidas = 10000;
+        numPartidas = 20000;
         segmento = 10;
+
+        GestionMatrizQ.factorDescuento = 0.5f;
+        GestionMatrizQ.ratioAprendizaje = 0.7f;
 	}
 
 	private void crearMatrices()
@@ -185,12 +188,27 @@ public class Entrenamiento : MonoBehaviour {
 
                 if (partidasRealizadas % 1000 == 0)
                 {
-                    new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 1000), matQ.objeto);
 
-                    if(partidasRealizadas > 4000)
-                        decisionador1.SetMetodo(ModoDecisionador.Normal);
-                    if(partidasRealizadas > 7000)
+                    if (partidasRealizadas > 16000)
+                    {
                         decisionador1.SetMetodo(ModoDecisionador.ProPlayer);
+                        GestionMatrizQ.factorDescuento = 0.8f;
+                        GestionMatrizQ.ratioAprendizaje = 0.3f;
+                    }
+                    else if (partidasRealizadas > 12000)
+                    {
+                        GestionMatrizQ.factorDescuento = 0.7f;
+                        GestionMatrizQ.ratioAprendizaje = 0.5f;
+                        decisionador1.SetMetodo(ModoDecisionador.Normal);
+                    }
+                    else if (partidasRealizadas > 7000)
+                    {
+                        GestionMatrizQ.factorDescuento = 0.6f;
+                        GestionMatrizQ.ratioAprendizaje = 0.6f;
+                        decisionador1.SetMetodo(ModoDecisionador.Manco);
+                    }
+
+                    new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(partidasRealizadas / 1000), matQ.objeto);
                 }
 
                 yield return null;
@@ -266,12 +284,12 @@ public class Entrenamiento : MonoBehaviour {
 
     private void comprobarBazoongas()
     {
-        if (partidaEnCurso.j1.chargues >= 5)
+        if (partidaEnCurso.j1.chargues >= GlobalData.VALORES_CARGAS - 1)
         {
             partidaEnCurso.j1Bazoonga = true;
 			accionJ1 = intToPlayerAction (GlobalData.BAZOONGA);
         }
-        if (partidaEnCurso.j2.chargues >= 5)
+        if (partidaEnCurso.j2.chargues >= GlobalData.VALORES_CARGA_ENEMIGO - 1)
             partidaEnCurso.j2Bazoonga = true;
 		accionJ2 = intToPlayerAction(GlobalData.BAZOONGA);
     }
