@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TurnBasedBehaviour : MonoBehaviour {
 
@@ -31,6 +32,8 @@ public class TurnBasedBehaviour : MonoBehaviour {
     private bool bazoongaJugador, bazoongaIA;
     private bool ataqueJugador, ataqueIA;
 
+	public Text gameOverText;
+
 	//Hacer la funcion que hace la foto.
 
 	// Use this for initialization
@@ -58,7 +61,7 @@ public class TurnBasedBehaviour : MonoBehaviour {
         botones = GameObject.Find("Buttons");
         StartCoroutine("MainLoop");
 	}
-	
+
 
 	public void spawneoEscudo(int lado)
 	{
@@ -78,12 +81,14 @@ public class TurnBasedBehaviour : MonoBehaviour {
 		if (jugador.Life <= 0) 
 		{
 			Debug.Log ("LA IA HA GANADO!!!");
-            StartCoroutine("MostrarVictoriaYVolverAlMenu");
+			gameOverText.text = "OMAE WA MO SHINDEIRU";
+			StartCoroutine("MostrarVictoriaYVolverAlMenu");
             return true;
 		}
 		else if (IA.Life <= 0) 
 		{
 			Debug.Log ("el jugador ha ganado!!!");
+			gameOverText.text = "HAS GANADO, INCREÍBLE!!!";
             StartCoroutine("MostrarVictoriaYVolverAlMenu");
             return true;
 		}
@@ -198,6 +203,10 @@ public class TurnBasedBehaviour : MonoBehaviour {
 
     IEnumerator MostrarVictoriaYVolverAlMenu()
     {
+		jugador.canvasReference.GameOverScreen ();
+		yield return new WaitForSeconds (5.0f);
+
+		SceneManager.LoadScene (0);
 
         yield return null;
     }

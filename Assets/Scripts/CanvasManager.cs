@@ -12,10 +12,12 @@ public class CanvasManager : MonoBehaviour {
 	public Slider playerLifesCanvas;
 	public Slider IALifesCanvas;
 
+	public GameObject gameOverScreen;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		gameOverScreen.SetActive (false);	
 	}
 	
 	// Update is called once per frame
@@ -60,6 +62,14 @@ public class CanvasManager : MonoBehaviour {
 	{
 		numberOfTurns.text = "Turno Actual: \n" + totalTurns;
 	}
+
+	public void GameOverScreen()
+	{
+		gameOverScreen.SetActive (true);	
+	}
+
+
+
 
 
 }

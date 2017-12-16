@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour {
     private GestionDeArchivos<MatrizQ> matQ;
     private playerActions accionIA;
 
+	public Slider shieldSlider;
+
 
 	public int Life 
 	{
@@ -63,6 +65,8 @@ public class PlayerMovement : MonoBehaviour {
             positions[2, i] = fila3[i];
 
         }
+		shieldSlider.value = 1.0f;
+
 	}
 
 
@@ -135,6 +139,7 @@ public class PlayerMovement : MonoBehaviour {
         Shield.SetActive(true);
         print("Defensa " + defense);
         shield = shield - 1;
+		CheckShieldSliderValue ();
     }
 
 	public void EjecutarAccion(playerActions action)
@@ -227,5 +232,11 @@ public class PlayerMovement : MonoBehaviour {
 
         return true;
     }
+
+	public void CheckShieldSliderValue()
+	{
+		shieldSlider.value =  ((float) shield)/ 3.0f;
+	}
+
 
 }
