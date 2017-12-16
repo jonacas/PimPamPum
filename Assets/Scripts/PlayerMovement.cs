@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour {
 	public bool legalMove; // SE ACTUALIZA EN MOVE, AUNQUE ESTA DEUELVA VOID
 	public CanvasManager canvasReference;
 	public Slider lifeSlider;
+    public GameObject Shield;
 	public int totalTurns = 0;
     
 	public float distanceToEnemy;
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         life = 3;
         shield = 3;
         chargues = 0;
+        Shield.SetActive(false);
         for (int i = 0; i < fila1.Length; i++) {
 
             positions[0, i] = fila1[i];
@@ -64,7 +66,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 
-	void Move(int move) { //Funcion para mover al personaje
+    void Move(int move) { //Funcion para mover al personaje
 
 
 		switch ( move /*movement*/) 
@@ -130,15 +132,19 @@ public class PlayerMovement : MonoBehaviour {
     public void Defense() {
 
         defense = true;
+        Shield.SetActive(true);
+        print("Defensa " + defense);
         shield = shield - 1;
     }
 
 	public void EjecutarAccion(playerActions action)
 	{
-		switch (action) 
+        print("Defensa " + defense);
+        switch (action) 
 		{
 		case playerActions.Charge:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Rechargue();break;
 			}
@@ -148,36 +154,42 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		case playerActions.Shoot:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Attack();break;
 			}
 		case playerActions.MoveDown:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Move(1);break;
 			}
 		case playerActions.MoveLeft:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Move(2); break;
             }
 		case playerActions.MoveUp:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Move(4); break;
                 }
 		case playerActions.MoveRight:
 			{
+                    Shield.SetActive(false);
                     defense = false;
                     Move(3); break;
             }
         case playerActions.Bazoonga:
             {
+                    Shield.SetActive(false);
                     defense = false;
                     Bazoonga(); break;
             }
 		}
-	}
+    }
 
     public bool CheckLegalMove(playerActions move)
     {
@@ -204,7 +216,7 @@ public class PlayerMovement : MonoBehaviour {
                     return false;
                 break;
             case playerActions.Guard:
-                if (shield >= 0)
+                if (shield <= 0)
                     return false;
                 break;
             case playerActions.Bazoonga:
