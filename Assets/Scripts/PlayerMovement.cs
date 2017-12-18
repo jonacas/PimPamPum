@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public Transform cañon;
+    public GameObject bullet;
     public string horizontal;
     public string vertical;
     public GameObject rival;
@@ -117,6 +119,12 @@ public class PlayerMovement : MonoBehaviour {
 
         
         chargues = chargues - 1;
+        GameObject bala = Instantiate(bullet,cañon);
+        /*while (bala.transform.position != rival.transform.position) {
+            bala.transform.position = Vector3.Lerp(bala.transform.position, rival.transform.position, 0.15f);
+
+        }*/
+
 
     }
 

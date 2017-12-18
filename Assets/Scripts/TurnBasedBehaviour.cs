@@ -17,7 +17,6 @@ public class TurnBasedBehaviour : MonoBehaviour {
 	private int currentTurn;
 
 	//Gestion de partida: turnos, gameflow...
-
 	public GameObject modeladoEscudo;
 	private bool activeHumanShield = false;
 	private bool activeIAShield = false;
