@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -220,12 +220,12 @@ Prefab:
     - target: {fileID: 224700842671241660, guid: 9f291caf1cc1fd149a095b22e7bbda7c,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 377
+      value: 246
       objectReference: {fileID: 0}
     - target: {fileID: 224700842671241660, guid: 9f291caf1cc1fd149a095b22e7bbda7c,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 212
+      value: 138.5
       objectReference: {fileID: 0}
     - target: {fileID: 224700842671241660, guid: 9f291caf1cc1fd149a095b22e7bbda7c,
         type: 2}
@@ -377,6 +377,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1178836406}
+    - target: {fileID: 1234933150663818, guid: 9f291caf1cc1fd149a095b22e7bbda7c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f291caf1cc1fd149a095b22e7bbda7c, type: 2}
   m_IsPrefabParent: 0
