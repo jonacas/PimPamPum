@@ -40,12 +40,12 @@ public class TurnBasedBehaviour : MonoBehaviour {
 
         matQ = new GestionDeArchivos<MatrizQ>("MatrizQ" + System.Convert.ToString(GlobalData.Dificultad));
 
-        if (GlobalData.Dificultad >= 7)
+        if (GlobalData.Dificultad >= 17)
         {
             decisionadorIA = new Decisionador(ModoDecisionador.ProPlayer, matQ.objeto);
         }
 
-        else if (GlobalData.Dificultad >= 4)
+        else if (GlobalData.Dificultad >= 10)
         {
             decisionadorIA = new Decisionador(ModoDecisionador.Normal, matQ.objeto);
         }

@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour {
     // Use this for initialization
     void Awake () {
 
+        bullet.SetActive(false);
         life = 3;
         shield = 3;
         chargues = 0;
@@ -119,17 +120,22 @@ public class PlayerMovement : MonoBehaviour {
 
         
         chargues = chargues - 1;
-        GameObject bala = Instantiate(bullet,cañon);
-        /*while (bala.transform.position != rival.transform.position) {
-            bala.transform.position = Vector3.Lerp(bala.transform.position, rival.transform.position, 0.15f);
+        if (chargues <= 0) {
 
-        }*/
+            bullet.SetActive(false);
+        }
+        
+        
 
 
     }
 
     void Rechargue() {
         chargues = chargues + 1;
+        if (chargues > 0) {
+
+            bullet.SetActive(true);
+        }
        
     }
     public void Damage(int damage = 1) {
